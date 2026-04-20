@@ -1,0 +1,10 @@
+# 敏感信息
+.env
+.env.local
+
+# 日志
+*.log
+server.log
+
+# 依赖
+node_modules/

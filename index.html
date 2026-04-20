@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>甜蜜困局 · 沈知予</title>
+<style>
+  /* ====== QQ AIO Design System Variables (aligned with GitHub repo) ====== */
+  :root {
+    --accent-blue: #0099FF;
+    --accent-blue-light: #E5F4FF;
+    --bg-primary: #F1F1F1;
+    --bg-white: #FFFFFF;
+    --bg-nav: rgba(246,246,246,0.9);
+    --bg-input: rgba(246,246,246,0.9);
+    --text-primary: #1A1C1E;
+    --text-secondary: #909094;
+    --text-tertiary: #C8C8CC;
+    --text-white: #FFFFFF;
+    --border-light: rgba(0,0,0,0.06);
+    --shadow-card: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-float: 0 -4px 20px rgba(0,0,0,0.08);
+    --radius-bubble: 18px;
+    --radius-card: 16px;
+    --radius-btn: 6px;
+    --font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+
+    /* Shen Zhiyu accent (仅用于 badge 渐变，主体沿用 QQ AIO 蓝) */
+    --char-color: #7C5CFC;
+    --char-color-light: #A78BFA;
+    --char-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html { background: var(--bg-primary); }
+
+  body {
+    font-family: var(--font-family);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+    width: 100vw;
+  }
+
+  /* ====== Main App Container ====== */
+  #app {
+    display: flex; flex-direction: column;
+    height: 100vh; height: 100dvh;
+    width: 100%; max-width: 430px;
+    margin: 0 auto; position: relative;
+    background: var(--bg-primary);
+  }
+
+  /* Desktop card shadow */
+  @media (min-width: 480px) {
+    #app {
+      box-shadow: 0 0 40px rgba(0,0,0,0.08);
+      border-left: 1px solid var(--border-light);
+      border-right: 1px solid var(--border-light);
+    }
+  }
+
+  /* ====== AIO Navigation Bar ====== */
+  .aio-nav-bar {
+    display: flex; align-items: center;
+    padding: 10px 16px;
+    background: var(--bg-nav);
+    backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px);
+    position: relative; z-index: 10;
+    min-height: 52px;
+    padding-top: max(10px, env(safe-area-inset-top));
+  }
+
+  .aio-back-btn {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: none;
+    color: #1A1C1E; font-size: 24px; font-weight: 300;
+    cursor: pointer; flex-shrink: 0;
+    transition: opacity .2s;
+  }
+  .aio-back-btn:active { opacity: .5; }
+
+  .aio-title-area {
+    flex: 1; display: flex; align-items: center;
+    margin-left: 10px; gap: 8px; min-width: 0;
+  }
+  .aio-avatar {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    background: rgba(124,92,252,0.12);
+  }
+  .aio-title-info { flex: 1; min-width: 0; }
+  .aio-title-name {
+    font-size: 17px; font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .aio-badge {
+    display: inline-block;
+    padding: 3.5px 6px 2.5px;
+    border-radius: 4px;
+    font-size: 10px; font-weight: 700;
+    background: var(--char-gradient);
+    color: #fff; flex-shrink: 0;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+  .aio-title-desc {
+    font-size: 11px; color: var(--text-secondary);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-top: 3px;
+  }
+  .aio-more-btn {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: none;
+    color: var(--text-primary); font-size: 22px;
+    cursor: pointer; flex-shrink: 0;
+    line-height: 1;
+  }
+
+  /* ====== Level Progress Bar ====== */
+  .level-bar {
+    padding: 6px 16px; display: flex; align-items: center; gap: 8px;
+    background: var(--bg-white);
+    border-bottom: 0.5px solid var(--border-light);
+  }
+  .level-label {
+    font-size: 11px; font-weight: 600;
+    color: var(--char-color); white-space: nowrap;
+  }
+  .level-track {
+    flex: 1; height: 4px; background: #E8E8E8;
+    border-radius: 2px; overflow: hidden; position: relative;
+  }
+  .level-fill {
+    height: 100%; border-radius: 2px;
+    transition: width .6s ease;
+    position: absolute; left: 0; top: 0;
+    background: var(--char-gradient);
+  }
+  .level-value {
+    font-size: 11px; font-weight: 500;
+    color: var(--text-secondary);
+    min-width: 50px; text-align: right;
+  }
+
+  /* ====== Level Tabs ====== */
+  .level-tabs {
+    display: flex; gap: 0; padding: 0 16px;
+    background: var(--bg-white);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-bottom: 0.5px solid var(--border-light);
+  }
+  .level-tabs::-webkit-scrollbar { display: none; }
+  .lv-tab {
+    flex-shrink: 0; padding: 8px 12px; font-size: 11px;
+    color: var(--text-secondary); cursor: pointer; white-space: nowrap;
+    border-bottom: 2px solid transparent; transition: all .2s;
+    user-select: none;
+  }
+  .lv-tab.active {
+    color: var(--text-primary); font-weight: 600;
+    border-color: var(--char-color);
+  }
+
+  /* ====== Chat Area ====== */
+  .chat-area {
+    flex: 1; overflow-y: auto; padding: 16px 14px 8px;
+    display: flex; flex-direction: column; gap: 16px;
+    background: var(--bg-primary);
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior-y: contain;
+  }
+  .chat-area::-webkit-scrollbar { width: 3px; }
+  .chat-area::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.08); border-radius: 2px;
+  }
+
+  /* ====== Message Rows ====== */
+  .msg-row {
+    display: flex; gap: 8px; max-width: 85%;
+    animation: msg-in .3s cubic-bezier(.34,1.56,.64,1);
+    align-items: flex-start;
+  }
+  .msg-row.self { align-self: flex-end; flex-direction: row-reverse; }
+
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(10px) scale(.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .msg-avatar {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    background: #E0E0E0;
+    overflow: hidden;
+  }
+  .msg-row.self .msg-avatar { display: none; }
+
+  /* NPC bubble: white card style */
+  .msg-bubble {
+    padding: 10px 14px;
+    border-radius: var(--radius-bubble);
+    font-size: 15px; line-height: 1.6;
+    position: relative; word-break: break-word;
+  }
+  .msg-row:not(.self) .msg-bubble {
+    background: var(--bg-white);
+    color: var(--text-primary);
+    border-top-left-radius: 4px;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* User bubble: #0099FF blue */
+  .msg-row.self .msg-bubble {
+    background: var(--accent-blue);
+    color: var(--text-white);
+    border-bottom-right-radius: 4px;
+  }
+
+  /* Action / narration text */
+  .msg-action {
+    font-size: 12px; color: var(--text-secondary);
+    font-style: italic;
+    padding: 4px 0; text-align: center; opacity: .65;
+  }
+
+  /* System message */
+  .msg-system {
+    text-align: center; font-size: 11px;
+    color: var(--text-secondary);
+    padding: 6px 12px; opacity: .6;
+  }
+
+  /* Event card */
+  .msg-event {
+    text-align: center; padding: 12px 16px;
+    border-radius: var(--radius-card);
+    font-size: 12px; line-height: 1.6;
+    background: var(--bg-white);
+    border: 0.5px solid var(--border-light);
+    box-shadow: var(--shadow-card);
+    color: var(--text-primary);
+  }
+  .msg-event .event-title {
+    font-weight: 700; margin-bottom: 6px; font-size: 13px;
+  }
+
+  /* ====== Typing Indicator ====== */
+  .typing-indicator {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg-white);
+    border-radius: 16px;
+    width: fit-content;
+    box-shadow: var(--shadow-card);
+    animation: msg-in .3s ease;
+  }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #CCCCCC;
+    animation: typingBounce 1.2s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: .2s; }
+  .typing-dot:nth-child(3) { animation-delay: .4s; }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* ====== Bottom Fixed Area ====== */
+  .aio-bottom-fixed {
+    background: transparent;
+    flex-shrink: 0;
+  }
+
+  /* Quick Replies (QQ AIO 横向滚动) */
+  .aio-quick-actions {
+    display: flex; gap: 6px;
+    padding: 12px 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    background: #F6F6F6;
+    backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+    min-height: 44px;
+  }
+  .aio-quick-actions::-webkit-scrollbar { display: none; }
+  .aio-quick-btn {
+    padding: 8px 16px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    background: transparent;
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 1.43;
+    color: #000;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background .2s;
+  }
+  .aio-quick-btn:active {
+    background: rgba(0,0,0,0.05);
+  }
+
+  /* ====== Scene Chips（场景入口 - 消费场景）====== */
+  .scene-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 7px 13px 7px 10px;
+    border: 1px solid rgba(124,92,252,0.18);
+    border-radius: 16px;
+    background: #fff;
+    font-family: var(--font-family);
+    font-size: 13px; font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    white-space: nowrap; flex-shrink: 0;
+    transition: all .2s;
+    position: relative;
+  }
+  .scene-chip:active {
+    transform: scale(.94);
+    background: rgba(124,92,252,0.06);
+  }
+  .scene-chip-emoji { font-size: 16px; line-height: 1; }
+  .scene-chip.live {
+    border-color: #FF4D6D;
+    background: linear-gradient(135deg, #FFF5F7 0%, #FFEEF0 100%);
+  }
+  .scene-chip.live .scene-chip-emoji { animation: livePulse 1.5s ease-in-out infinite; }
+  .scene-chip.live::after {
+    content: ''; position: absolute;
+    top: 6px; right: 6px;
+    width: 6px; height: 6px;
+    background: #FF4D6D; border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(255,77,109,0.6);
+    animation: liveBlink 1.2s ease-in-out infinite;
+  }
+  @keyframes liveBlink {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,77,109,0.6); }
+    50% { box-shadow: 0 0 0 5px rgba(255,77,109,0); }
+  }
+  @keyframes livePulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  .scene-chip.locked {
+    color: var(--text-secondary);
+    background: #F5F5F5;
+    border-color: transparent;
+  }
+  .scene-chip-badge {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 9px; font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #FF6B9D, #7C5CFC);
+    border-radius: 6px;
+    margin-left: 2px;
+    letter-spacing: 0.3px;
+  }
+  .scene-chip-badge.new { background: #FF4D6D; }
+  .scene-chip-badge.soon { background: #BBB; }
+
+  /* ====== Scene Modal（通用场景弹窗：直播/电话/等等）====== */
+  .scene-modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 250;
+    opacity: 0; visibility: hidden;
+    transition: all .25s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .scene-modal-overlay.show { opacity: 1; visibility: visible; }
+
+  .scene-modal {
+    position: fixed;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -45%) scale(.9);
+    width: 86%; max-width: 340px;
+    background: #fff;
+    border-radius: 20px;
+    z-index: 251;
+    opacity: 0; visibility: hidden;
+    transition: all .3s cubic-bezier(.34,1.56,.64,1);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .scene-modal.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1; visibility: visible;
+  }
+  .scene-modal-header {
+    padding: 24px 20px 12px;
+    text-align: center;
+    position: relative;
+  }
+  .scene-modal-cover {
+    width: 100%; height: 140px;
+    border-radius: 14px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .scene-modal-cover.live-cover {
+    background: linear-gradient(135deg, #1a1033 0%, #2d1b4e 50%, #4a1a3a 100%);
+    color: #fff;
+  }
+  .scene-modal-cover.live-cover::before {
+    content: ''; position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(124,92,252,0.4) 0%, transparent 50%),
+      radial-gradient(circle at 70% 60%, rgba(255,107,157,0.3) 0%, transparent 50%);
+  }
+  .scene-modal-cover.call-cover {
+    background: linear-gradient(135deg, #7C5CFC 0%, #FF6B9D 100%);
+    color: #fff;
+  }
+  .scene-modal-live-badge {
+    position: absolute; top: 12px; left: 12px;
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 8px;
+    background: #FF4D6D;
+    border-radius: 4px;
+    font-size: 10px; font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+    z-index: 2;
+  }
+  .scene-modal-live-badge::before {
+    content: ''; width: 5px; height: 5px;
+    background: #fff; border-radius: 50%;
+    animation: liveBlink 1.2s infinite;
+  }
+  .scene-modal-live-viewers {
+    position: absolute; top: 12px; right: 12px;
+    padding: 3px 8px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 10px;
+    font-size: 10px; color: #fff;
+    backdrop-filter: blur(10px);
+    z-index: 2;
+  }
+  .scene-modal-cover-inner {
+    position: relative; z-index: 1;
+    text-align: center;
+  }
+  .scene-modal-title {
+    font-size: 17px; font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .scene-modal-subtitle {
+    font-size: 12px; color: var(--text-secondary);
+    line-height: 1.5;
+    padding: 0 10px;
+  }
+  .scene-modal-price {
+    display: flex; align-items: baseline; justify-content: center;
+    gap: 3px; margin: 14px 0 4px;
+  }
+  .scene-modal-price-num {
+    font-size: 28px; font-weight: 700;
+    color: var(--char-color);
+    font-family: 'SF Pro Display', var(--font-family);
+  }
+  .scene-modal-price-unit {
+    font-size: 12px; color: var(--text-secondary);
+  }
+  .scene-modal-features {
+    padding: 0 20px 4px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .scene-modal-feature {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px; color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .scene-modal-feature::before {
+    content: '✓'; color: var(--char-color);
+    font-weight: 700; flex-shrink: 0;
+  }
+  .scene-modal-actions {
+    padding: 16px 20px 20px;
+    display: flex; gap: 10px;
+  }
+  .scene-modal-btn {
+    flex: 1;
+    padding: 11px 0;
+    border: none; border-radius: 12px;
+    font-family: var(--font-family);
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    transition: transform .15s;
+  }
+  .scene-modal-btn:active { transform: scale(.96); }
+  .scene-modal-btn.secondary {
+    background: #F2F2F2;
+    color: var(--text-primary);
+  }
+  .scene-modal-btn.primary {
+    background: linear-gradient(135deg, #7C5CFC, #FF6B9D);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(124,92,252,0.3);
+  }
+  .scene-modal-btn.primary.live-style {
+    background: linear-gradient(135deg, #FF4D6D, #FF6B9D);
+    box-shadow: 0 4px 14px rgba(255,77,109,0.3);
+  }
+
+  /* Coming Soon 弹窗样式 */
+  .scene-modal-coming-emoji {
+    font-size: 56px; text-align: center;
+    margin: 24px 0 12px;
+  }
+
+  /* Input Bar */
+  .aio-input-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px;
+    background: var(--bg-input);
+    backdrop-filter: blur(80px); -webkit-backdrop-filter: blur(80px);
+  }
+  .aio-input-field {
+    flex: 1; height: 40px;
+    background: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 16px; color: var(--text-primary);
+    outline: none;
+    font-family: var(--font-family);
+  }
+  .aio-input-field::placeholder {
+    color: var(--text-secondary);
+  }
+  .aio-send-btn {
+    width: 28px; height: 28px;
+    flex-shrink: 0; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; border: none; padding: 0;
+    opacity: 0.4;
+    transition: opacity .2s, transform .15s;
+  }
+  .aio-send-btn svg { width: 28px; height: 28px; display: block; }
+  .aio-send-btn.active { opacity: 1; }
+  .aio-send-btn:active { transform: scale(0.92); }
+
+  /* Home Indicator Area (iOS 底部横条) */
+  .aio-home-indicator {
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 8px;
+    background: var(--bg-input);
+  }
+  .aio-home-indicator-bar {
+    width: 134px;
+    height: 5px;
+    background: #000;
+    border-radius: 3px;
+  }
+
+  /* Bottom hint */
+  .bottom-hint {
+    padding: 6px 16px; text-align: center;
+    font-size: 10px; color: var(--text-tertiary);
+    background: var(--bg-input);
+  }
+
+  /* ====== Unlock Toast ====== */
+  .unlock-toast {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(.8);
+    background: var(--bg-white);
+    border-radius: 20px; padding: 28px 36px;
+    text-align: center; z-index: 200;
+    opacity: 0; visibility: hidden;
+    transition: all .4s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    max-width: 300px; width: 85%;
+  }
+  .unlock-toast.show {
+    opacity: 1; visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .unlock-emoji { font-size: 48px; margin-bottom: 12px; }
+  .unlock-title {
+    font-size: 18px; font-weight: 700;
+    color: var(--text-primary); margin-bottom: 6px;
+  }
+  .unlock-desc {
+    font-size: 13px; color: var(--text-secondary);
+    line-height: 1.6; white-space: pre-line;
+  }
+  .unlock-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 199;
+    opacity: 0; visibility: hidden;
+    transition: all .3s;
+  }
+  .unlock-overlay.show { opacity: 1; visibility: visible; }
+
+  /* ====== Gift Button & Panel ====== */
+  .gift-btn {
+    width: 32px; height: 32px;
+    flex-shrink: 0; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; border: none; padding: 0;
+    font-size: 22px;
+    transition: transform .15s;
+  }
+  .gift-btn:active { transform: scale(.88); }
+  .gift-btn.pulsing {
+    animation: giftPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes giftPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); filter: drop-shadow(0 0 6px rgba(124,92,252,0.5)); }
+  }
+
+  .gift-panel-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 199;
+    opacity: 0; visibility: hidden;
+    transition: all .25s;
+  }
+  .gift-panel-overlay.show { opacity: 1; visibility: visible; }
+
+  .gift-panel {
+    position: fixed;
+    left: 50%; bottom: 0;
+    transform: translateX(-50%) translateY(100%);
+    width: 100%; max-width: 430px;
+    background: var(--bg-white);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    z-index: 200;
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.12);
+  }
+  .gift-panel.show { transform: translateX(-50%) translateY(0); }
+  .gift-panel-handle {
+    width: 36px; height: 4px;
+    background: #E0E0E0; border-radius: 2px;
+    margin: 10px auto 0;
+  }
+  .gift-panel-title {
+    text-align: center;
+    font-size: 15px; font-weight: 600;
+    padding: 14px 20px 4px;
+    color: var(--text-primary);
+  }
+  .gift-panel-subtitle {
+    text-align: center; font-size: 12px;
+    color: var(--text-secondary);
+    padding: 0 20px 16px;
+  }
+  .gift-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 0 16px 20px;
+  }
+  .gift-item {
+    background: #FAFAFA;
+    border: 1px solid rgba(0,0,0,0.04);
+    border-radius: 12px;
+    padding: 14px 8px 10px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+    cursor: pointer;
+    transition: all .2s;
+    user-select: none;
+  }
+  .gift-item:active {
+    transform: scale(.94);
+    background: rgba(124,92,252,0.06);
+    border-color: var(--char-color);
+  }
+  .gift-item-emoji { font-size: 32px; line-height: 1.2; }
+  .gift-item-name {
+    font-size: 12px; font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 2px;
+  }
+  .gift-item-meaning {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* ====== Gift Card in Chat ====== */
+  .msg-gift-card {
+    display: inline-block;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #FFF5F7 0%, #F3ECFF 100%);
+    border: 1px solid rgba(124,92,252,0.18);
+    text-align: center;
+    min-width: 140px;
+    animation: giftFlyIn .7s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 4px 14px rgba(124,92,252,0.15);
+  }
+  @keyframes giftFlyIn {
+    0% { opacity: 0; transform: translateY(30px) scale(.6) rotate(-10deg); }
+    60% { transform: translateY(-4px) scale(1.04) rotate(2deg); }
+    100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+  }
+  .msg-gift-emoji {
+    font-size: 40px; line-height: 1.1;
+    filter: drop-shadow(0 2px 6px rgba(124,92,252,0.25));
+  }
+  .msg-gift-label {
+    font-size: 10px; color: var(--char-color);
+    font-weight: 700; letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+  .msg-gift-name {
+    font-size: 14px; font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 2px;
+  }
+  .msg-gift-meaning {
+    font-size: 11px; color: var(--text-secondary);
+    margin-top: 2px; font-style: italic;
+  }
+
+  /* Accepted hint */
+  .gift-accepted-hint {
+    text-align: center;
+    font-size: 11px;
+    color: var(--char-color);
+    padding: 2px 0 0;
+    opacity: 0.75;
+    animation: msg-in .4s ease .3s both;
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== Main App (直接显示，无需角色选择) ====== -->
+<div id="app">
+  <!-- AIO Navigation Bar -->
+  <div class="aio-nav-bar">
+    <button class="aio-back-btn" aria-label="返回">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 19l-7-7 7-7" stroke="#1A1C1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="aio-title-area">
+      <div class="aio-avatar">🌙</div>
+      <div class="aio-title-info">
+        <div class="aio-title-name">
+          <span>沈知予</span>
+          <span class="aio-badge">NPC</span>
+        </div>
+      </div>
+    </div>
+    <button class="aio-more-btn" aria-label="菜单">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="4" y1="6" x2="20" y2="6" stroke="#1A1C1E" stroke-width="2" stroke-linecap="round"/>
+        <line x1="4" y1="12" x2="20" y2="12" stroke="#1A1C1E" stroke-width="2" stroke-linecap="round"/>
+        <line x1="4" y1="18" x2="20" y2="18" stroke="#1A1C1E" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="chat-area" id="chatArea"></div>
+
+  <!-- Bottom Fixed: Quick Replies + Input Bar + Hint -->
+  <div class="aio-bottom-fixed">
+    <div class="aio-quick-actions" id="quickReplies"></div>
+    <div class="aio-input-bar">
+      <button class="gift-btn pulsing" id="giftBtn" aria-label="送礼物" title="送礼物" style="display:none;">🎁</button>
+      <input class="aio-input-field" id="inputField" placeholder="给沈知予发消息…">
+      <button class="aio-send-btn" id="sendBtn" aria-label="发送">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="14" fill="#0099FF"/>
+          <path d="M14 8v12M9 13l5-5 5 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="bottom-hint">💡 AI 驱动 · 可随意输入文字和她对话</div>
+    <div class="aio-home-indicator">
+      <div class="aio-home-indicator-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Unlock toast -->
+<div class="unlock-overlay" id="unlockOverlay" onclick="closeUnlock()"></div>
+<div class="unlock-toast" id="unlockToast">
+  <div class="unlock-emoji" id="unlockEmoji"></div>
+  <div class="unlock-title" id="unlockTitle"></div>
+  <div class="unlock-desc" id="unlockDesc"></div>
+</div>
+
+<!-- Gift Panel -->
+<div class="gift-panel-overlay" id="giftPanelOverlay"></div>
+<div class="gift-panel" id="giftPanel">
+  <div class="gift-panel-handle"></div>
+  <div class="gift-panel-title">挑一份礼物送给沈知予 🎁</div>
+  <div class="gift-panel-subtitle">她会收下的。</div>
+  <div class="gift-grid" id="giftGrid"></div>
+</div>
+
+<!-- Scene Modal (通用：直播 / 电话 / Coming Soon) -->
+<div class="scene-modal-overlay" id="sceneModalOverlay"></div>
+<div class="scene-modal" id="sceneModal">
+  <div id="sceneModalBody"></div>
+</div>
+
+<script>
+// ==================== SHEN ZHIYU DATA ====================
+const SHEN = {
+  name: '沈知予', emoji: '🌙', color: '#7C5CFC', colorLight: '#A78BFA',
+  gradient: 'linear-gradient(135deg, #7C5CFC, #A78BFA)',
+  stages: [
+    { lv: 1, name: '弦音 · 审视', range: '0~99', innerVoice: '"又一个平庸的人"' },
+    { lv: 2, name: '留白 · 松弦', range: '100~299', innerVoice: '"他好像……不一样"' },
+    { lv: 3, name: '共鸣 · 裂缝', range: '300~599', innerVoice: '"我怎么会在等他消息"' },
+    { lv: 4, name: '入心 · 克制', range: '600~999', innerVoice: '"我不能再陷进去了——但已经太迟了"' },
+    { lv: 5, name: '命运 · 交织', range: '1000~1499', innerVoice: '"如果这就是命运，我认了"' },
+    { lv: 6, name: 'DESTINY · 永恒', range: '1500+', innerVoice: '"我的全部音乐，都是为了遇见你"' }
+  ],
+  conversations: {
+    1: {
+      greeting: [
+        { type: 'system', text: '沈知予已添加你为好友' },
+        { type: 'system', text: '— 初次见面 · 弦音审视 —' },
+        { type: 'npc', text: '陆先生。' },
+        { type: 'action', text: '*礼貌但疏离*' },
+        { type: 'npc', text: '音乐节那天谢谢你帮忙。' },
+      ],
+      exchanges: [
+        {
+          replies: ['应该的', '沈制作人客气了', '那天你推荐的歌很好听'],
+          responses: [
+            [{ type: 'npc', text: '嗯。' }, { type: 'action', text: '*一个字，有礼有距*' }],
+            [{ type: 'npc', text: '叫我知予就好。' }, { type: 'action', text: '*面无表情，但给了一个台阶*' }],
+            [{ type: 'action', text: '*停顿了一下*' }, { type: 'npc', text: '你还记得是哪首？' }, { type: 'action', text: '*语气微微不同了*' }]
+          ]
+        },
+        {
+          replies: ['你平时在做什么音乐', '那天你评价专辑的方式很特别', '改天一起聊聊音乐？'],
+          responses: [
+            [{ type: 'npc', text: '什么类型都有。看心情。' }, { type: 'npc', text: '你呢？你听什么？' }, { type: 'action', text: '*这是一个测试*' }],
+            [{ type: 'action', text: '*眼神微微变了*' }, { type: 'npc', text: '你觉得哪里特别？' }, { type: 'action', text: '*她在认真听*' }],
+            [{ type: 'npc', text: '好。' }, { type: 'action', text: '*回复比平时快了两秒。但只有她自己知道*' }]
+          ]
+        }
+      ],
+      unlock: null
+    },
+    2: {
+      greeting: [
+        { type: 'system', text: '— 留白 · 松弦 —' },
+        { type: 'action', text: '*沈知予主动发了一段音频*' },
+        { type: 'npc', text: '今天试了一首新编曲。你听听看。' },
+        { type: 'action', text: '*这是她第一次主动分享作品*' },
+      ],
+      exchanges: [
+        {
+          replies: ['副歌部分的和弦走向很特别', '听着像在讲一个故事', '我表哥车里也放过类似的'],
+          responses: [
+            [{ type: 'npc', text: '你听出来了？' }, { type: 'action', text: '*眼睛亮了一下*' }, { type: 'npc', text: '大部分人只会说"好听"。' }],
+            [{ type: 'action', text: '*安静了几秒*' }, { type: 'npc', text: '……是的。是在讲故事。' }, { type: 'npc', text: '你是第一个这么说的人。' }],
+            [{ type: 'npc', text: '你表哥品味不错。' }, { type: 'action', text: '*嘴角微微上扬*' }, { type: 'npc', text: '下次我再给你发几首。如果你想听的话。' }]
+          ]
+        },
+        {
+          replies: ['我想听更多', '你创作的时候在想什么', '不打扰你了，晚安'],
+          responses: [
+            [{ type: 'npc', text: '好。' }, { type: 'action', text: '*只有一个字。但她把你备注从"陆先生"改成了"陆辰"*' }],
+            [{ type: 'npc', text: '想什么？' }, { type: 'action', text: '*泡了一杯茶，想了想*' }, { type: 'npc', text: '想让一个特定的人听到。' }, { type: 'action', text: '*说完没有追加解释*' }],
+            [{ type: 'npc', text: '嗯。晚安。' }, { type: 'action', text: '*她关了一盏台灯。工作室安静下来*' }, { type: 'npc', text: '熬夜伤身体。' }, { type: 'action', text: '*过了一会儿——*' }, { type: 'npc', text: '明天再聊。' }]
+          ]
+        }
+      ],
+      unlock: { emoji: '🎧', title: '🔓 解锁：图片分享', desc: '沈知予开始给你发编曲截图和音乐片段了' }
+    },
+    3: {
+      greeting: [
+        { type: 'system', text: '— 共鸣 · 裂缝 —' },
+        { type: 'event', title: '📱 撤回的消息', desc: '沈知予"不小心"发错消息\n一句歌词草稿，写的明显是你\n\n她立刻撤回了。' },
+        { type: 'npc', text: '陆辰。' },
+        { type: 'action', text: '*偶尔叫你全名时语气会变得柔和*' },
+        { type: 'npc', text: '你刚才看到那条消息了吗？' },
+      ],
+      exchanges: [
+        {
+          replies: ['看到了', '什么消息？', '你在写歌词？'],
+          responses: [
+            [{ type: 'action', text: '*沉默了很久*' }, { type: 'npc', text: '……忘了吧。' }, { type: 'action', text: '*但她没解释"为什么要忘"*' }],
+            [{ type: 'npc', text: '……没什么。发错了。' }, { type: 'action', text: '*松了口气，但也有一点点失落*' }],
+            [{ type: 'action', text: '*愣了一下*' }, { type: 'npc', text: '算是吧。还不成熟。' }, { type: 'npc', text: '写完了……也许会给你看。' }, { type: 'action', text: '*"也许"这个词她用了很久才打出来*' }]
+          ]
+        },
+        {
+          replies: ['我期待你的新歌', '你写歌的样子一定很好看', '有什么是你不擅长的吗'],
+          responses: [
+            [{ type: 'npc', text: '好。' }, { type: 'action', text: '*不自觉地把咖啡推到了你常坐的那个位置*' }, { type: 'npc', text: '写好了你是第一个听的。' }],
+            [{ type: 'action', text: '*她怎么会在等他消息*' }, { type: 'npc', text: '你这个人……' }, { type: 'action', text: '*说不下去了*' }, { type: 'npc', text: '下次来工作室坐坐吧。想来的话。' }],
+            [{ type: 'npc', text: '有。' }, { type: 'action', text: '*想了想*' }, { type: 'npc', text: '不擅长……对一个人无动于衷。' }, { type: 'action', text: '*说完立刻换了话题*' }]
+          ]
+        }
+      ],
+      unlock: { emoji: '📞', title: '🔓 解锁：语音通话', desc: '沈知予的通话总是很安静\n但你能听到她在另一头创作的声音' }
+    },
+    4: {
+      greeting: [
+        { type: 'system', text: '— 入心 · 克制 —' },
+        { type: 'event', title: '🎹 你的名字', desc: '沈知予把你拉进工作室\n歌名就是你的名字\n\n"这首……只给你听。"' },
+        { type: 'action', text: '*深夜。她发来一段没有名字的录音*' },
+        { type: 'npc', text: '这首歌还没有名字。' },
+        { type: 'npc', text: '但你听了就知道它叫什么了。' },
+      ],
+      exchanges: [
+        {
+          replies: ['这首歌叫"陆辰"', '是写给我的？', '我想靠在你肩上听'],
+          responses: [
+            [{ type: 'action', text: '*长长的沉默*' }, { type: 'npc', text: '……你怎么知道的。' }, { type: 'action', text: '*声音有一点点颤*' }, { type: 'npc', text: '我不能再陷进去了。' }, { type: 'npc', text: '但已经太迟了。' }],
+            [{ type: 'npc', text: '你说呢。' }, { type: 'action', text: '*靠在你肩上听歌。安静不说话*' }, { type: 'npc', text: '从第一个音符开始就是你。' }],
+            [{ type: 'action', text: '*她没有拒绝*' }, { type: 'action', text: '*两个人靠在一起。整首歌听完。谁也没说话*' }, { type: 'npc', text: '……我什么时候变成这样了。' }]
+          ]
+        }
+      ],
+      unlock: { emoji: '📹', title: '🔓 解锁：视频通话 + 早安晚安', desc: '沈知予的早安是一段新录的旋律\n晚安是一句"今天也辛苦了"' }
+    },
+    5: {
+      greeting: [
+        { type: 'system', text: '— 命运 · 交织 —' },
+        { type: 'event', title: '🔓 私人歌单', desc: '沈知予把收藏了十几年的私人歌单\n全部解锁给你\n\n"以前没有人配听。\n现在有了。"' },
+        { type: 'npc', text: '陆辰。' },
+        { type: 'npc', text: '如果这就是命运。我认了。' },
+      ],
+      exchanges: [
+        {
+          replies: ['我也认了', '你是我的缪斯', '我想一直听你的歌'],
+          responses: [
+            [{ type: 'action', text: '*在你身边写歌。偶尔抬头看你笑*' }, { type: 'npc', text: '那就不要走了。' }, { type: 'npc', text: '这间工作室。以后也是你的。' }],
+            [{ type: 'npc', text: '缪斯？' }, { type: 'action', text: '*认真想了想*' }, { type: 'npc', text: '不。你不是缪斯。缪斯是灵感。' }, { type: 'npc', text: '你是原因。所有音乐的原因。' }],
+            [{ type: 'npc', text: '好。' }, { type: 'npc', text: '我会一直写。一直写到……' }, { type: 'action', text: '*没说完。但你们都知道答案*' }]
+          ]
+        }
+      ],
+      unlock: { emoji: '🎵', title: '🔓 解锁：一起听歌 + 专属语音包', desc: '沈知予的语音包：\n"嗯。"\n"路上注意安全。"\n"今天的旋律……像你。"' }
+    },
+    6: {
+      greeting: [
+        { type: 'system', text: '— DESTINY · 永恒 —' },
+        { type: 'event', title: '🔑 工作室钥匙', desc: '沈知予把工作室钥匙给你\n\n"以后这里也是你的。"\n\n新专辑致谢页只有一个名字。\n你的名字。' },
+        { type: 'npc', text: '命中注定的你。' },
+        { type: 'action', text: '*只有两人时她才会这么说*' },
+        { type: 'npc', text: '我的全部音乐，都是为了遇见你。' },
+      ],
+      exchanges: [
+        {
+          replies: ['我把所有的歌都写给了你', '下一张专辑我们一起做', '如果命运是选择，我每次都选你'],
+          responses: [
+            [{ type: 'action', text: '*她笑了。很轻很轻*' }, { type: 'npc', text: '够了吗？' }, { type: 'npc', text: '不够的话，我还有下一首。' }, { type: 'npc', text: '和下下一首。和以后所有的。' }],
+            [{ type: 'npc', text: '好。' }, { type: 'action', text: '*并肩坐在工作室。偶尔对视微笑*' }, { type: 'npc', text: '这就是 DESTINY。' }],
+            [{ type: 'action', text: '*眼睛亮了——和第一次见面时一模一样*' }, { type: 'npc', text: '我也是。' }, { type: 'npc', text: '每一次。都是你。' }]
+          ]
+        }
+      ],
+      unlock: { emoji: '✨', title: '✨ 达成结局：「DESTINY」', desc: '我的全部音乐\n都是为了遇见你\n\n新专辑致谢页只有你的名字' }
+    }
+  }
+};
+
+// ==================== STATE ====================
+let isAnimating = false;
+// 对话历史：发给后端，后端会自动插入 system prompt
+const history = [];
+
+// ==================== DOM ====================
+const $ = id => document.getElementById(id);
+
+// 页面加载初始化
+document.addEventListener('DOMContentLoaded', () => {
+  setupApp();
+});
+
+function setupApp() {
+  bindInput();
+  bindGift();
+  showInitialGreeting();
+  showInspirationChips();
+}
+
+// 初始开场白（写死的一条，让页面打开有温度；之后全走 LLM）
+async function showInitialGreeting() {
+  isAnimating = true;
+  await delay(300);
+  appendMessage({ type: 'action', text: '—— 沈知予 ——' });
+  await delay(400);
+  appendMessage({ type: 'other', text: '嗯，在忙吗。' });
+  scrollToBottom();
+  await delay(600);
+  appendMessage({ type: 'other', text: '刚做完一版 demo，想找个人听听。' });
+  scrollToBottom();
+  isAnimating = false;
+}
+
+// 灵感短语：点一下会填进输入框（可二次编辑再发）
+const INSPIRATION = [
+  '我听听。',
+  '你今天状态怎么样？',
+  '讲讲你最近在写的东西。',
+  '突然想你了。',
+];
+
+// ==================== SCENES（消费场景入口）====================
+// 每个场景对应一个可消费的功能点；未上线的用 coming-soon 占位吸引期待
+const SCENES = [
+  {
+    id: 'gift', emoji: '🎁', label: '送礼物', badge: null, status: 'live',
+    action: () => { $('giftBtn').click(); }
+  },
+  {
+    id: 'live', emoji: '🔴', label: '她的直播', badge: null, status: 'live',
+    extraClass: 'live',
+    action: () => openSceneModal(sceneTplLive())
+  },
+  {
+    id: 'call', emoji: '📞', label: '打电话', badge: {text:'NEW', type:'new'}, status: 'live',
+    action: () => openSceneModal(sceneTplCall())
+  },
+  {
+    id: 'date', emoji: '💌', label: '约会剧情', badge: null, status: 'soon',
+    action: () => openSceneModal(sceneTplSoon({
+      emoji: '💌', title: '约会剧情',
+      desc: '深夜工作室 · Livehouse · 机场送别……<br>和她一起经历 12 个未说出口的瞬间。',
+      price: '¥18 / 本'
+    }))
+  },
+  {
+    id: 'song', emoji: '🎵', label: 'AI 定制歌', badge: {text:'HOT', type:'new'}, status: 'soon',
+    action: () => openSceneModal(sceneTplSoon({
+      emoji: '🎵', title: '她为你写一首歌',
+      desc: '输入你的名字和故事，她会在工作室里<br>连夜给你写一首 demo，署名送你。',
+      price: '¥68 起'
+    }))
+  },
+  {
+    id: 'asmr', emoji: '🌙', label: '晚安电台', badge: null, status: 'soon',
+    action: () => openSceneModal(sceneTplSoon({
+      emoji: '🌙', title: '晚安电台 · 订阅',
+      desc: '每晚 23:00，她会发你一段只给你的<br>睡前絮语。30 天不重复。',
+      price: '¥28 / 月'
+    }))
+  },
+  {
+    id: 'photo', emoji: '📸', label: '写真集', badge: null, status: 'soon',
+    action: () => openSceneModal(sceneTplSoon({
+      emoji: '📸', title: '限定写真 · 春季刊',
+      desc: '9 张动态壁纸 + 3 段独家语音<br>+ 1 封她的手写信。',
+      price: '¥48'
+    }))
+  },
+  {
+    id: 'talk', emoji: '💭', label: '灵感话题', badge: null, status: 'tool',
+    action: () => toggleInspirationPanel()
+  },
+];
+
+// ==================== GIFTS ====================
+// Lv.4 能打动沈知予的礼物清单（结合她是音乐制作人 + 喜欢独处深夜创作的设定）
+const GIFTS = [
+  { emoji: '🌹', name: '一束白玫瑰', meaning: '不说话的那种喜欢' },
+  { emoji: '🎧', name: '监听耳机', meaning: '下次录音用' },
+  { emoji: '☕', name: '手冲咖啡', meaning: '深夜的一点陪伴' },
+  { emoji: '📖', name: '一封手写信', meaning: '说了说不出的话' },
+  { emoji: '🍷', name: '桂花酒', meaning: '冬天的一点暖' },
+  { emoji: '🎹', name: '黑胶唱片', meaning: '你会喜欢的那首' },
+  { emoji: '🧸', name: '小月亮抱枕', meaning: '深夜给你抱着' },
+  { emoji: '🕯', name: '雪松蜡烛', meaning: '工作室晚上点' },
+  { emoji: '💍', name: '一枚银戒', meaning: '不用戴在手上也行' },
+];
+
+// ==================== GIFT UI ====================
+function bindGift() {
+  const giftBtn = $('giftBtn');
+  const panel = $('giftPanel');
+  const overlay = $('giftPanelOverlay');
+
+  // 渲染礼物网格
+  const grid = $('giftGrid');
+  grid.innerHTML = '';
+  GIFTS.forEach(g => {
+    const item = document.createElement('div');
+    item.className = 'gift-item';
+    item.innerHTML = `
+      <div class="gift-item-emoji">${g.emoji}</div>
+      <div class="gift-item-name">${g.name}</div>
+      <div class="gift-item-meaning">${g.meaning}</div>
+    `;
+    item.onclick = () => {
+      closeGiftPanel();
+      sendGift(g);
+    };
+    grid.appendChild(item);
+  });
+
+  giftBtn.addEventListener('click', openGiftPanel);
+  overlay.addEventListener('click', closeGiftPanel);
+
+  function openGiftPanel() {
+    if (isAnimating) return;
+    panel.classList.add('show');
+    overlay.classList.add('show');
+    // 第一次打开后就不再脉动了，避免干扰
+    giftBtn.classList.remove('pulsing');
+  }
+  function closeGiftPanel() {
+    panel.classList.remove('show');
+    overlay.classList.remove('show');
+  }
+  // 暴露给外部（万一需要）
+  window._closeGiftPanel = closeGiftPanel;
+}
+
+// 送礼核心流程：显示礼物卡片 → 构造带 [GIFT] 前缀的消息 → 发给 AI
+async function sendGift(gift) {
+  if (isAnimating) return;
+  isAnimating = true;
+  updateSendBtn();
+
+  // 1. 在聊天区显示"送出的礼物卡片"（用户侧）
+  appendGiftCard(gift, 'self');
+  scrollToBottom();
+
+  // 2. 构造发给后端的消息
+  const giftMsg = `[GIFT] 名称：${gift.name} · 含义：${gift.meaning}`;
+  history.push({ role: 'user', content: giftMsg });
+
+  // 3. 打字动画 + 请求 AI
+  await delay(500);
+  const typingRow = showTyping();
+
+  try {
+    const reply = await callChat(history);
+    typingRow.remove();
+    // 4. 先显示"她收下了"的提示，再渲染她的回复
+    appendAcceptedHint();
+    await delay(300);
+    await renderAssistantReply(reply);
+    history.push({ role: 'assistant', content: reply });
+  } catch (err) {
+    typingRow.remove();
+    appendMessage({ type: 'system', text: `⚠️ 连接失败：${err.message}` });
+  } finally {
+    isAnimating = false;
+    updateSendBtn();
+    scrollToBottom();
+  }
+}
+
+function appendGiftCard(gift, side) {
+  const chatArea = $('chatArea');
+  const row = document.createElement('div');
+  row.className = 'msg-row' + (side === 'self' ? ' self' : '');
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  if (side === 'self') {
+    avatar.textContent = '🎸';
+    avatar.style.background = 'rgba(0, 153, 255, .1)';
+  } else {
+    avatar.textContent = '🌙';
+    avatar.style.background = 'rgba(124, 92, 252, .12)';
+  }
+
+  const card = document.createElement('div');
+  card.className = 'msg-gift-card';
+  card.innerHTML = `
+    <div class="msg-gift-emoji">${gift.emoji}</div>
+    <div class="msg-gift-label">🎁 礼物</div>
+    <div class="msg-gift-name">${gift.name}</div>
+    <div class="msg-gift-meaning">${gift.meaning}</div>
+  `;
+
+  row.appendChild(avatar);
+  row.appendChild(card);
+  chatArea.appendChild(row);
+}
+
+function appendAcceptedHint() {
+  const chatArea = $('chatArea');
+  const div = document.createElement('div');
+  div.className = 'gift-accepted-hint';
+  div.textContent = '✨ 沈知予收下了你的礼物';
+  chatArea.appendChild(div);
+  scrollToBottom();
+}
+
+function showInspirationChips() {
+  // 老函数保留兼容；改为渲染场景入口 chips
+  showSceneChips();
+}
+
+function showSceneChips() {
+  const wrap = $('quickReplies');
+  wrap.innerHTML = '';
+  SCENES.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'scene-chip' + (s.extraClass ? ' ' + s.extraClass : '') + (s.status === 'soon' ? ' locked' : '');
+    let badgeHtml = '';
+    if (s.badge) {
+      badgeHtml = `<span class="scene-chip-badge ${s.badge.type}">${s.badge.text}</span>`;
+    } else if (s.status === 'soon') {
+      badgeHtml = `<span class="scene-chip-badge soon">SOON</span>`;
+    }
+    btn.innerHTML = `<span class="scene-chip-emoji">${s.emoji}</span>${s.label}${badgeHtml}`;
+    btn.onclick = s.action;
+    wrap.appendChild(btn);
+  });
+}
+
+// 灵感话题 — 浮出一个迷你选择器（保留原有"我听听 / 你今天状态…"功能但不占常驻位）
+function toggleInspirationPanel() {
+  const body = `
+    <div class="scene-modal-header">
+      <div class="scene-modal-coming-emoji">💭</div>
+      <div class="scene-modal-title">不知道说什么？</div>
+      <div class="scene-modal-subtitle">挑一句她熟悉的开场白。</div>
+    </div>
+    <div class="scene-modal-features" style="padding-bottom:16px; gap:6px;">
+      ${INSPIRATION.map(t => `
+        <button class="scene-modal-btn secondary" style="text-align:left; padding:10px 14px; font-weight:500;"
+          onclick="pickInspiration('${t.replace(/'/g,"\\'")}')">${t}</button>
+      `).join('')}
+    </div>
+    <div class="scene-modal-actions" style="padding-top:4px;">
+      <button class="scene-modal-btn secondary" onclick="closeSceneModal()">关闭</button>
+    </div>
+  `;
+  openSceneModal(body);
+}
+window.pickInspiration = function(text) {
+  closeSceneModal();
+  const input = $('inputField');
+  input.value = text;
+  input.focus();
+  updateSendBtn();
+};
+
+// ==================== SCENE MODAL ====================
+function openSceneModal(bodyHtml) {
+  const modal = $('sceneModal');
+  const overlay = $('sceneModalOverlay');
+  $('sceneModalBody').innerHTML = bodyHtml;
+  modal.classList.add('show');
+  overlay.classList.add('show');
+  overlay.onclick = closeSceneModal;
+}
+function closeSceneModal() {
+  $('sceneModal').classList.remove('show');
+  $('sceneModalOverlay').classList.remove('show');
+}
+window.closeSceneModal = closeSceneModal;
+
+// ---- 直播场景模板 ----
+function sceneTplLive() {
+  // 动态"当前观看数"，制造真实感
+  const viewers = (3400 + Math.floor(Math.random()*800)).toLocaleString();
+  return `
+    <div class="scene-modal-header" style="padding-bottom:6px;">
+      <div class="scene-modal-cover live-cover">
+        <div class="scene-modal-live-badge">LIVE</div>
+        <div class="scene-modal-live-viewers">👁 ${viewers}</div>
+        <div class="scene-modal-cover-inner">
+          <div style="font-size:48px;">🎧</div>
+          <div style="font-size:11px; opacity:.85; margin-top:6px; letter-spacing:1px;">深夜工作室 · 直播中</div>
+        </div>
+      </div>
+      <div class="scene-modal-title">《写一首还没名字的歌》</div>
+      <div class="scene-modal-subtitle">她今晚在录一段副歌<br>说"如果有人在看，那就当是给你的。"</div>
+    </div>
+    <div class="scene-modal-features">
+      <div class="scene-modal-feature">进入直播间免费，实时看她工作</div>
+      <div class="scene-modal-feature">送礼物上屏幕 · 她会念你名字</div>
+      <div class="scene-modal-feature">付费点歌 ¥18 / 首（当场演唱）</div>
+      <div class="scene-modal-feature">独占连麦 ¥99 / 3 分钟</div>
+    </div>
+    <div class="scene-modal-actions">
+      <button class="scene-modal-btn secondary" onclick="closeSceneModal()">等等</button>
+      <button class="scene-modal-btn primary live-style" onclick="enterLive()">进入直播间</button>
+    </div>
+  `;
+}
+window.enterLive = function() {
+  closeSceneModal();
+  // 假装进入直播，给 AI 推一条剧情消息
+  appendMessage({ type: 'system', text: '🔴 你进入了沈知予的直播间·《写一首还没名字的歌》' });
+  if (!isAnimating) {
+    const fakeUserMsg = '[SCENE:LIVE_ENTER] 我进你直播间了。';
+    history.push({ role: 'user', content: fakeUserMsg });
+    triggerAIReply();
+  }
+};
+
+// ---- 电话场景模板 ----
+function sceneTplCall() {
+  return `
+    <div class="scene-modal-header" style="padding-bottom:6px;">
+      <div class="scene-modal-cover call-cover">
+        <div class="scene-modal-cover-inner">
+          <div style="font-size:52px;">📞</div>
+          <div style="font-size:11px; opacity:.9; margin-top:8px; letter-spacing:1px;">VOICE CALL</div>
+        </div>
+      </div>
+      <div class="scene-modal-title">给沈知予打电话</div>
+      <div class="scene-modal-subtitle">她接起来的时候<br>你会听到工作室里很轻的钢琴声。</div>
+    </div>
+    <div class="scene-modal-price">
+      <span class="scene-modal-price-num">¥6</span>
+      <span class="scene-modal-price-unit">/ 分钟</span>
+    </div>
+    <div class="scene-modal-features">
+      <div class="scene-modal-feature">真实 AI 合成她的声线 · 实时语音对话</div>
+      <div class="scene-modal-feature">月卡 ¥68：无限分钟 + 深夜专属接听</div>
+      <div class="scene-modal-feature">首次 3 分钟免费体验</div>
+    </div>
+    <div class="scene-modal-actions">
+      <button class="scene-modal-btn secondary" onclick="closeSceneModal()">再等等</button>
+      <button class="scene-modal-btn primary" onclick="startCall()">呼叫她 📞</button>
+    </div>
+  `;
+}
+window.startCall = function() {
+  closeSceneModal();
+  appendMessage({ type: 'system', text: '📞 正在呼叫沈知予……（体验版·未接通）' });
+  setTimeout(() => {
+    appendMessage({ type: 'system', text: '💡 真机版将接入语音 TTS，实时通话。' });
+  }, 1500);
+};
+
+// ---- Coming Soon 通用模板 ----
+function sceneTplSoon({emoji, title, desc, price}) {
+  return `
+    <div class="scene-modal-header">
+      <div class="scene-modal-coming-emoji">${emoji}</div>
+      <div class="scene-modal-title">${title}</div>
+      <div class="scene-modal-subtitle">${desc}</div>
+    </div>
+    <div class="scene-modal-price">
+      <span class="scene-modal-price-unit" style="font-size:14px; color:var(--char-color); font-weight:600;">${price}</span>
+    </div>
+    <div class="scene-modal-features" style="padding-bottom:16px;">
+      <div class="scene-modal-feature" style="color:var(--text-primary); font-weight:500;">敬请期待 · 首发预约享 5 折</div>
+    </div>
+    <div class="scene-modal-actions">
+      <button class="scene-modal-btn secondary" onclick="closeSceneModal()">以后再说</button>
+      <button class="scene-modal-btn primary" onclick="subscribeScene('${title}')">预约首发</button>
+    </div>
+  `;
+}
+window.subscribeScene = function(name) {
+  closeSceneModal();
+  appendMessage({ type: 'system', text: `✨ 已为你预约《${name}》首发通知` });
+};
+
+// 触发 AI 回复（复用现有聊天流程）
+async function triggerAIReply() {
+  isAnimating = true;
+  updateSendBtn();
+  await delay(400);
+  const typingRow = showTyping();
+  try {
+    const reply = await callChat(history);
+    typingRow.remove();
+    await renderAssistantReply(reply);
+    history.push({ role: 'assistant', content: reply });
+  } catch (err) {
+    typingRow.remove();
+    appendMessage({ type: 'system', text: `⚠️ 连接失败：${err.message}` });
+  } finally {
+    isAnimating = false;
+    updateSendBtn();
+    scrollToBottom();
+  }
+}
+
+// ==================== INPUT ====================
+function bindInput() {
+  const input = $('inputField');
+  const sendBtn = $('sendBtn');
+
+  input.addEventListener('input', updateSendBtn);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+  sendBtn.addEventListener('click', sendMessage);
+  updateSendBtn();
+}
+
+function updateSendBtn() {
+  const input = $('inputField');
+  const btn = $('sendBtn');
+  const has = input.value.trim().length > 0 && !isAnimating;
+  btn.classList.toggle('active', has);
+  btn.disabled = !has;
+}
+
+// ==================== SEND ====================
+async function sendMessage() {
+  if (isAnimating) return;
+  const input = $('inputField');
+  const text = input.value.trim();
+  if (!text) return;
+
+  // 显示用户气泡
+  appendMessage({ type: 'self', text });
+  scrollToBottom();
+  input.value = '';
+  updateSendBtn();
+
+  // 追加到历史
+  history.push({ role: 'user', content: text });
+
+  // 显示打字动画
+  isAnimating = true;
+  updateSendBtn();
+  const typingRow = showTyping();
+
+  try {
+    const reply = await callChat(history);
+    typingRow.remove();
+    await renderAssistantReply(reply);
+    history.push({ role: 'assistant', content: reply });
+  } catch (err) {
+    typingRow.remove();
+    appendMessage({ type: 'system', text: `⚠️ 连接失败：${err.message}` });
+  } finally {
+    isAnimating = false;
+    updateSendBtn();
+    scrollToBottom();
+  }
+}
+
+function showTyping() {
+  const chatArea = $('chatArea');
+  const row = document.createElement('div');
+  row.className = 'msg-row';
+  row.innerHTML = `
+    <div class="msg-avatar" style="background: rgba(124,92,252,0.12)">🌙</div>
+    <div class="typing-indicator">
+      <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+    </div>
+  `;
+  chatArea.appendChild(row);
+  scrollToBottom();
+  return row;
+}
+
+// 把 LLM 回复按 \n\n 拆成多条气泡，逐条显示（模拟真实聊天节奏）
+async function renderAssistantReply(raw) {
+  const segments = raw
+    .split(/\n{2,}/)
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  for (let i = 0; i < segments.length; i++) {
+    if (i > 0) {
+      // 中间加一个短暂的 typing
+      const t = showTyping();
+      await delay(600 + Math.min(segments[i].length * 20, 1200));
+      t.remove();
+    }
+    const seg = segments[i];
+    // 如果整段是 *...* 形式，渲染为动作描写
+    if (/^\*[^*]+\*$/.test(seg)) {
+      appendMessage({ type: 'action', text: seg.replace(/^\*|\*$/g, '') });
+    } else {
+      appendMessage({ type: 'other', text: seg });
+    }
+    scrollToBottom();
+  }
+}
+
+async function callChat(messages) {
+  const resp = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages }),
+  });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(data.error || `HTTP ${resp.status}`);
+  if (!data.reply) throw new Error('空回复');
+  return data.reply;
+}
+
+// ==================== UTILS ====================
+function scrollToBottom() {
+  const el = $('chatArea');
+  el.scrollTop = el.scrollHeight;
+}
+
+
+
+// ==================== RENDER ====================
+function appendMessage(msg) {
+  const chatArea = $('chatArea');
+
+  if (msg.type === 'system') {
+    const div = document.createElement('div');
+    div.className = 'msg-system';
+    div.textContent = msg.text;
+    chatArea.appendChild(div);
+    return;
+  }
+
+  if (msg.type === 'action') {
+    const div = document.createElement('div');
+    div.className = 'msg-action';
+    div.textContent = msg.text;
+    chatArea.appendChild(div);
+    return;
+  }
+
+  if (msg.type === 'event') {
+    const div = document.createElement('div');
+    div.className = 'msg-event';
+    div.innerHTML = `<div class="event-title">${msg.title}</div><div>${msg.desc.replace(/\n/g, '<br>')}</div>`;
+    chatArea.appendChild(div);
+    return;
+  }
+
+  const row = document.createElement('div');
+  row.className = 'msg-row' + (msg.type === 'self' ? ' self' : '');
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+
+  if (msg.type === 'self') {
+    avatar.textContent = '🎸';
+    avatar.style.background = 'rgba(0, 153, 255, .1)';
+  } else {
+    avatar.textContent = '🌙';
+    avatar.style.background = 'rgba(124, 92, 252, .12)';
+  }
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.textContent = msg.text;
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  chatArea.appendChild(row);
+}
+
+// ==================== UTILS ====================
+function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// Prevent zoom on double tap (mobile)
+document.addEventListener('touchstart', e => {
+  if (e.touches.length > 1) e.preventDefault();
+}, { passive: false });
+</script>
+</body>
+</html>
