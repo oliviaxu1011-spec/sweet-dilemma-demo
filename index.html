@@ -2537,15 +2537,9 @@ window.enterLive = function() {
   closeSceneModal();
   // 先展示一个"直播加载中"的过渡页（风格复用 live-cover 深紫渐变）
   showLiveLoading();
-  // 2.6s 后自动进直播间，推系统消息 + 触发 AI 回复
+  // 2.6s 后关闭加载页（本 demo 不展示直播，不回聊天框推消息/触发 AI）
   setTimeout(() => {
     closeSceneModal();
-    appendMessage({ type: 'system', text: '🔴 你进入了沈知予的直播间·《写一首还没名字的歌》' });
-    if (!isAnimating) {
-      const fakeUserMsg = '[SCENE:LIVE_ENTER] 我进你直播间了。';
-      history.push({ role: 'user', content: fakeUserMsg });
-      triggerAIReply();
-    }
   }, 2600);
 };
 
