@@ -1,0 +1,19 @@
+# Render Blueprint 配置
+# 当你在 Render 里连接这个仓库，它会自动读这个文件一键创建服务
+# 文档：https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: sweet-dilemma-demo
+    runtime: node
+    plan: free
+    region: singapore # 新加坡节点，国内访问最快
+    branch: main
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /index.html
+    envVars:
+      - key: DEEPSEEK_API_KEY
+        sync: false # 敏感信息，不写进代码，去 Render 控制台手动填
+      - key: NODE_VERSION
+        value: "18"
