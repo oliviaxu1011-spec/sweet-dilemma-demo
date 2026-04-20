@@ -692,13 +692,29 @@
     cursor: pointer;
     transition: all .2s;
     user-select: none;
+    position: relative;
   }
   .gift-item:active {
     transform: scale(.94);
     background: rgba(124,92,252,0.06);
     border-color: var(--char-color);
   }
-  .gift-item-emoji { font-size: 32px; line-height: 1.2; }
+  .gift-item-price {
+    position: absolute;
+    top: 6px; right: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--char-color);
+    background: rgba(124,92,252,0.08);
+    padding: 2px 6px;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+  }
+  .gift-item-price-free {
+    color: #C2856A;
+    background: rgba(194,133,106,0.1);
+  }
+  .gift-item-emoji { font-size: 32px; line-height: 1.2; margin-top: 4px; }
   .gift-item-name {
     font-size: 12px; font-weight: 600;
     color: var(--text-primary);
@@ -709,6 +725,159 @@
     color: var(--text-secondary);
     text-align: center;
     line-height: 1.3;
+  }
+  /* 自定义礼物入口：虚线框，视觉上区分于商品礼物 */
+  .gift-item-custom {
+    background: linear-gradient(135deg, #FFF5F7 0%, #F3ECFF 100%);
+    border: 1.5px dashed rgba(124,92,252,0.4);
+  }
+  .gift-item-custom .gift-item-name {
+    color: var(--char-color);
+  }
+
+  /* ====== 自定义礼物弹窗 ====== */
+  .custom-gift-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 300;
+    opacity: 0;
+    transition: opacity .25s;
+    pointer-events: none;
+  }
+  .custom-gift-overlay.show { opacity: 1; pointer-events: auto; }
+
+  .custom-gift-dialog {
+    position: fixed;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%) scale(.85);
+    width: calc(100% - 40px);
+    max-width: 360px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--bg-white);
+    border-radius: 20px;
+    z-index: 301;
+    padding: 24px 20px 20px;
+    opacity: 0;
+    transition: all .3s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .custom-gift-dialog.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .custom-gift-title {
+    font-size: 17px; font-weight: 700;
+    text-align: center;
+    color: var(--text-primary);
+  }
+  .custom-gift-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: 4px;
+    margin-bottom: 18px;
+  }
+  .custom-gift-field {
+    margin-bottom: 14px;
+  }
+  .custom-gift-field label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .custom-gift-field input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #E5E5E7;
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: #FAFAFA;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: all .2s;
+  }
+  .custom-gift-field input:focus {
+    outline: none;
+    border-color: var(--char-color);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.1);
+  }
+  .custom-gift-emoji-picker {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+  }
+  .emoji-pick {
+    background: #FAFAFA;
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    padding: 6px 0;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .emoji-pick:hover { background: #F0F0F2; }
+  .emoji-pick.active {
+    background: rgba(124,92,252,0.1);
+    border-color: var(--char-color);
+    transform: scale(1.05);
+  }
+  .custom-gift-price-row {
+    display: flex; align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    border: 1px solid #E5E5E7;
+    border-radius: 10px;
+    background: #FAFAFA;
+  }
+  .custom-gift-price-row span {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+  .custom-gift-price-row input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-size: 14px;
+  }
+  .custom-gift-price-row:focus-within {
+    border-color: var(--char-color);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.1);
+  }
+  .custom-gift-actions {
+    display: flex; gap: 10px;
+    margin-top: 20px;
+  }
+  .custom-gift-btn-cancel,
+  .custom-gift-btn-send {
+    flex: 1;
+    padding: 12px 0;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .2s;
+  }
+  .custom-gift-btn-cancel {
+    background: #F0F0F2;
+    color: var(--text-secondary);
+  }
+  .custom-gift-btn-cancel:active { background: #E5E5E7; }
+  .custom-gift-btn-send {
+    background: var(--char-color);
+    color: #fff;
+  }
+  .custom-gift-btn-send:active {
+    transform: scale(.96);
+    background: #6849DE;
   }
 
   /* ====== Gift Card in Chat ====== */
@@ -722,6 +891,23 @@
     min-width: 140px;
     animation: giftFlyIn .7s cubic-bezier(.34,1.56,.64,1);
     box-shadow: 0 4px 14px rgba(124,92,252,0.15);
+    position: relative;
+  }
+  .msg-gift-price {
+    position: absolute;
+    top: -8px; right: -8px;
+    background: var(--char-color);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(124,92,252,0.3);
+  }
+  .msg-gift-price-custom {
+    background: linear-gradient(135deg, #FFB457 0%, #FF8D54 100%);
+    box-shadow: 0 2px 6px rgba(255,141,84,0.4);
   }
   @keyframes giftFlyIn {
     0% { opacity: 0; transform: translateY(30px) scale(.6) rotate(-10deg); }
@@ -1090,17 +1276,21 @@ const SCENES = [
 
 // ==================== GIFTS ====================
 // Lv.4 能打动沈知予的礼物清单（结合她是音乐制作人 + 喜欢独处深夜创作的设定）
+// 价格按真实电商市价区间设定（从日常心意 ¥38 到越界贵重 ¥2899）
 const GIFTS = [
-  { emoji: '🌹', name: '一束白玫瑰', meaning: '不说话的那种喜欢' },
-  { emoji: '🎧', name: '监听耳机', meaning: '下次录音用' },
-  { emoji: '☕', name: '手冲咖啡', meaning: '深夜的一点陪伴' },
-  { emoji: '📖', name: '一封手写信', meaning: '说了说不出的话' },
-  { emoji: '🍷', name: '桂花酒', meaning: '冬天的一点暖' },
-  { emoji: '🎹', name: '黑胶唱片', meaning: '你会喜欢的那首' },
-  { emoji: '🧸', name: '小月亮抱枕', meaning: '深夜给你抱着' },
-  { emoji: '🕯', name: '雪松蜡烛', meaning: '工作室晚上点' },
-  { emoji: '💍', name: '一枚银戒', meaning: '不用戴在手上也行' },
+  { emoji: '🌹', name: '一束白玫瑰',  meaning: '不说话的那种喜欢', price: 158  },
+  { emoji: '🎧', name: '监听耳机',    meaning: '下次录音用',       price: 2899 },
+  { emoji: '☕', name: '手冲咖啡',    meaning: '深夜的一点陪伴',   price: 38   },
+  { emoji: '📖', name: '一封手写信',  meaning: '说了说不出的话',   price: 0    },  // 0 = 不显示价格（心意/非卖品）
+  { emoji: '🍷', name: '桂花酒',      meaning: '冬天的一点暖',     price: 168  },
+  { emoji: '🎹', name: '黑胶唱片',    meaning: '你会喜欢的那首',   price: 288  },
+  { emoji: '🧸', name: '小月亮抱枕',  meaning: '深夜给你抱着',     price: 128  },
+  { emoji: '🕯', name: '雪松蜡烛',    meaning: '工作室晚上点',     price: 198  },
+  { emoji: '💍', name: '一枚银戒',    meaning: '不用戴在手上也行', price: 1680 },
 ];
+
+// 自定义礼物入口（永远放在最后一个）
+const CUSTOM_GIFT_SLOT = { emoji: '✨', name: '自定义礼物', meaning: '你想送给她的一切', custom: true };
 
 // ==================== GIFT UI ====================
 function bindGift() {
@@ -1111,10 +1301,17 @@ function bindGift() {
   // 渲染礼物网格
   const grid = $('giftGrid');
   grid.innerHTML = '';
+
+  // 标准礼物
   GIFTS.forEach(g => {
     const item = document.createElement('div');
     item.className = 'gift-item';
+    // 价格标签（price=0 显示"心意"、price>0 显示 ¥xxx）
+    const priceHtml = g.price > 0
+      ? `<div class="gift-item-price">¥${g.price}</div>`
+      : `<div class="gift-item-price gift-item-price-free">心意</div>`;
     item.innerHTML = `
+      ${priceHtml}
       <div class="gift-item-emoji">${g.emoji}</div>
       <div class="gift-item-name">${g.name}</div>
       <div class="gift-item-meaning">${g.meaning}</div>
@@ -1125,6 +1322,19 @@ function bindGift() {
     };
     grid.appendChild(item);
   });
+
+  // 自定义礼物入口（虚线框 + ✨）
+  const customItem = document.createElement('div');
+  customItem.className = 'gift-item gift-item-custom';
+  customItem.innerHTML = `
+    <div class="gift-item-emoji">✨</div>
+    <div class="gift-item-name">自定义礼物</div>
+    <div class="gift-item-meaning">送点她意想不到的</div>
+  `;
+  customItem.onclick = () => {
+    openCustomGiftDialog();
+  };
+  grid.appendChild(customItem);
 
   giftBtn.addEventListener('click', openGiftPanel);
   overlay.addEventListener('click', closeGiftPanel);
@@ -1154,8 +1364,13 @@ async function sendGift(gift) {
   appendGiftCard(gift, 'self');
   scrollToBottom();
 
-  // 2. 构造发给后端的消息
-  const giftMsg = `[GIFT] 名称：${gift.name} · 含义：${gift.meaning}`;
+  // 2. 构造发给后端的消息（带价格）
+  let giftMsg = `[GIFT] 名称：${gift.name} · 含义：${gift.meaning}`;
+  if (gift.price && gift.price > 0) {
+    giftMsg += ` · 价格：¥${gift.price}`;
+  } else if (gift.custom) {
+    giftMsg += ` · 类型：玩家自定义（心意非商品）`;
+  }
   history.push({ role: 'user', content: giftMsg });
 
   // 3. 打字动画 + 请求 AI
@@ -1197,7 +1412,15 @@ function appendGiftCard(gift, side) {
 
   const card = document.createElement('div');
   card.className = 'msg-gift-card';
+  // 聊天气泡里：右上角价格角标（custom 类型显示✨ 心意）
+  let priceBadge = '';
+  if (gift.price && gift.price > 0) {
+    priceBadge = `<div class="msg-gift-price">¥${gift.price}</div>`;
+  } else if (gift.custom) {
+    priceBadge = `<div class="msg-gift-price msg-gift-price-custom">✨ 心意</div>`;
+  }
   card.innerHTML = `
+    ${priceBadge}
     <div class="msg-gift-emoji">${gift.emoji}</div>
     <div class="msg-gift-label">🎁 礼物</div>
     <div class="msg-gift-name">${gift.name}</div>
@@ -1207,6 +1430,100 @@ function appendGiftCard(gift, side) {
   row.appendChild(avatar);
   row.appendChild(card);
   chatArea.appendChild(row);
+}
+
+// ==================== 自定义礼物弹窗 ====================
+function openCustomGiftDialog() {
+  // 关掉礼物面板
+  $('giftPanel').classList.remove('show');
+  $('giftPanelOverlay').classList.remove('show');
+
+  // 动态创建弹窗
+  const overlay = document.createElement('div');
+  overlay.className = 'custom-gift-overlay show';
+
+  const dialog = document.createElement('div');
+  dialog.className = 'custom-gift-dialog';
+  dialog.innerHTML = `
+    <div class="custom-gift-title">自定义一份心意 ✨</div>
+    <div class="custom-gift-subtitle">她对"你亲手做的"比什么都在意。</div>
+
+    <div class="custom-gift-field">
+      <label>选一个 Emoji</label>
+      <div class="custom-gift-emoji-picker">
+        ${['🎵','🎸','📷','🎂','🍜','🎨','🌙','🪐','🎬','✉️','🧣','🍀'].map((e, i) =>
+          `<button type="button" class="emoji-pick ${i===0?'active':''}" data-emoji="${e}">${e}</button>`
+        ).join('')}
+      </div>
+    </div>
+
+    <div class="custom-gift-field">
+      <label>礼物名称</label>
+      <input type="text" id="customGiftName" maxlength="16" placeholder="例如：我写给你的一首 demo" />
+    </div>
+
+    <div class="custom-gift-field">
+      <label>想对她说的一句话</label>
+      <input type="text" id="customGiftMeaning" maxlength="20" placeholder="例如：副歌是凌晨三点写的" />
+    </div>
+
+    <div class="custom-gift-field">
+      <label>价格（可选，留空表示心意）</label>
+      <div class="custom-gift-price-row">
+        <span>¥</span>
+        <input type="number" id="customGiftPrice" min="0" max="99999" placeholder="留空 = 心意" />
+      </div>
+    </div>
+
+    <div class="custom-gift-actions">
+      <button type="button" class="custom-gift-btn-cancel" id="customGiftCancel">取消</button>
+      <button type="button" class="custom-gift-btn-send" id="customGiftSend">送给她</button>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  document.body.appendChild(dialog);
+  requestAnimationFrame(() => dialog.classList.add('show'));
+
+  // Emoji 选择交互
+  let selectedEmoji = '🎵';
+  dialog.querySelectorAll('.emoji-pick').forEach(btn => {
+    btn.onclick = () => {
+      dialog.querySelectorAll('.emoji-pick').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedEmoji = btn.dataset.emoji;
+    };
+  });
+
+  function close() {
+    dialog.classList.remove('show');
+    overlay.classList.remove('show');
+    setTimeout(() => {
+      dialog.remove();
+      overlay.remove();
+    }, 300);
+  }
+
+  $('customGiftCancel').onclick = close;
+  overlay.onclick = close;
+
+  $('customGiftSend').onclick = () => {
+    const name = $('customGiftName').value.trim() || '一份心意';
+    const meaning = $('customGiftMeaning').value.trim() || '想送给你的';
+    const priceRaw = $('customGiftPrice').value.trim();
+    const price = priceRaw ? parseInt(priceRaw, 10) : 0;
+
+    const gift = {
+      emoji: selectedEmoji,
+      name,
+      meaning,
+      price: isNaN(price) ? 0 : price,
+      custom: price > 0 ? false : true,  // 有价格就当普通礼物，没价格才是"心意"
+    };
+
+    close();
+    sendGift(gift);
+  };
 }
 
 function appendAcceptedHint() {
