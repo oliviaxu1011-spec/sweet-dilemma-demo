@@ -713,12 +713,6 @@
     color: var(--text-primary);
     margin-top: 2px;
   }
-  .gift-item-meaning {
-    font-size: 10px;
-    color: var(--text-secondary);
-    text-align: center;
-    line-height: 1.3;
-  }
   /* 自定义礼物入口：虚线框，视觉上区分于商品礼物 */
   .gift-item-custom {
     background: linear-gradient(135deg, #FFF5F7 0%, #F3ECFF 100%);
@@ -2102,7 +2096,6 @@ function bindGift() {
       ${priceHtml}
       <div class="gift-item-emoji">${g.emoji}</div>
       <div class="gift-item-name">${g.name}</div>
-      <div class="gift-item-meaning">${g.meaning}</div>
     `;
     item.onclick = () => {
       closeGiftPanel();
@@ -2117,7 +2110,6 @@ function bindGift() {
   customItem.innerHTML = `
     <div class="gift-item-emoji">✨</div>
     <div class="gift-item-name">自定义礼物</div>
-    <div class="gift-item-meaning">送她猜不到的心意</div>
   `;
   customItem.onclick = () => {
     openCustomGiftDialog();
