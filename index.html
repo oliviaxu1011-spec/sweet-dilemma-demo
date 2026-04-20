@@ -482,6 +482,112 @@
     line-height: 1.5;
     padding: 0 10px;
   }
+
+  /* ====== 直播加载中过渡页 ====== */
+  .live-loading-stage {
+    padding: 22px 22px 24px;
+    text-align: center;
+  }
+  .live-loading-cover {
+    position: relative;
+    width: 130px; height: 130px;
+    margin: 6px auto 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1033 0%, #2d1b4e 50%, #4a1a3a 100%);
+    display: flex; align-items: center; justify-content: center;
+    overflow: visible;
+  }
+  .live-loading-cover::before {
+    content: ''; position: absolute; inset: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(0,153,255,0.5) 0%, transparent 55%),
+      radial-gradient(circle at 70% 65%, rgba(255,107,157,0.4) 0%, transparent 55%);
+  }
+  .live-loading-pulse {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255,107,157,0.5);
+    animation: liveLoadingPulse 1.8s ease-out infinite;
+  }
+  .live-loading-pulse.delay {
+    animation-delay: 0.9s;
+    border-color: rgba(0,153,255,0.5);
+  }
+  @keyframes liveLoadingPulse {
+    0%   { transform: scale(1);    opacity: 0.8; }
+    80%  { transform: scale(1.55); opacity: 0;   }
+    100% { transform: scale(1.55); opacity: 0;   }
+  }
+  .live-loading-avatar {
+    width: 86px; height: 86px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    position: relative; z-index: 2;
+    border: 2px solid rgba(255,255,255,0.25);
+    box-shadow: 0 0 24px rgba(255,107,157,0.35);
+  }
+  .live-loading-badge {
+    position: absolute;
+    bottom: -4px; left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px;
+    background: #FF4D6D;
+    border-radius: 12px;
+    font-size: 11px; font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+    z-index: 3;
+    box-shadow: 0 4px 12px rgba(255,77,109,0.4);
+  }
+  .live-loading-badge .live-dot {
+    width: 6px; height: 6px;
+    background: #fff; border-radius: 50%;
+    animation: liveBlink 1.2s infinite;
+  }
+  .live-loading-title {
+    font-size: 16px; font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .live-loading-room {
+    font-size: 12px; color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  .live-loading-bar {
+    width: 70%;
+    height: 3px;
+    margin: 0 auto 12px;
+    background: rgba(0,153,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .live-loading-bar-inner {
+    position: absolute;
+    left: -40%; top: 0;
+    width: 40%; height: 100%;
+    background: linear-gradient(90deg, transparent, #0099FF, #FF6B9D, transparent);
+    border-radius: 3px;
+    animation: liveLoadingBar 1.4s ease-in-out infinite;
+  }
+  @keyframes liveLoadingBar {
+    0%   { left: -40%; }
+    100% { left: 100%; }
+  }
+  .live-loading-tip {
+    font-size: 11px;
+    color: var(--text-tertiary, #999);
+    letter-spacing: 0.3px;
+    animation: liveLoadingTipBlink 1.6s ease-in-out infinite;
+  }
+  @keyframes liveLoadingTipBlink {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 1;    }
+  }
   .scene-modal-price {
     display: flex; align-items: baseline; justify-content: center;
     gap: 3px; margin: 14px 0 4px;
@@ -2423,14 +2529,47 @@ function sceneTplLive() {
 }
 window.enterLive = function() {
   closeSceneModal();
-  // 假装进入直播，给 AI 推一条剧情消息
-  appendMessage({ type: 'system', text: '🔴 你进入了沈知予的直播间·《写一首还没名字的歌》' });
-  if (!isAnimating) {
-    const fakeUserMsg = '[SCENE:LIVE_ENTER] 我进你直播间了。';
-    history.push({ role: 'user', content: fakeUserMsg });
-    triggerAIReply();
-  }
+  // 先展示一个"直播加载中"的过渡页（风格复用 live-cover 深紫渐变）
+  showLiveLoading();
+  // 2.6s 后自动进直播间，推系统消息 + 触发 AI 回复
+  setTimeout(() => {
+    closeSceneModal();
+    appendMessage({ type: 'system', text: '🔴 你进入了沈知予的直播间·《写一首还没名字的歌》' });
+    if (!isAnimating) {
+      const fakeUserMsg = '[SCENE:LIVE_ENTER] 我进你直播间了。';
+      history.push({ role: 'user', content: fakeUserMsg });
+      triggerAIReply();
+    }
+  }, 2600);
 };
+
+// ---- 直播加载中过渡页 ----
+function showLiveLoading() {
+  const body = $('sceneModalBody');
+  body.innerHTML = `
+    <div class="live-loading-stage">
+      <div class="live-loading-cover">
+        <div class="live-loading-pulse"></div>
+        <div class="live-loading-pulse delay"></div>
+        <div class="live-loading-avatar avatar-shen">🌙</div>
+        <div class="live-loading-badge">
+          <span class="live-dot"></span>LIVE
+        </div>
+      </div>
+      <div class="live-loading-title">正在进入直播间</div>
+      <div class="live-loading-room">《写一首还没名字的歌》· 沈知予</div>
+      <div class="live-loading-bar">
+        <div class="live-loading-bar-inner"></div>
+      </div>
+      <div class="live-loading-tip">连接中…她的麦克风正在暖场</div>
+    </div>
+  `;
+  const modal = $('sceneModal');
+  const overlay = $('sceneModalOverlay');
+  modal.classList.add('show');
+  overlay.classList.add('show');
+  overlay.onclick = null; // 加载中禁止点外面关闭
+}
 
 // ---- 电话场景模板 ----
 function sceneTplCall() {
