@@ -2537,9 +2537,13 @@ window.enterLive = function() {
   closeSceneModal();
   // 先展示一个"直播加载中"的过渡页（风格复用 live-cover 深紫渐变）
   showLiveLoading();
-  // 2.6s 后关闭加载页（本 demo 不展示直播，不回聊天框推消息/触发 AI）
+  // 2.6s 后关闭加载页，并给出体验版占位文案（不触发 AI 回复）
   setTimeout(() => {
     closeSceneModal();
+    appendMessage({ type: 'system', text: '🔴 正在进入沈知予的直播间……（体验版·未开播）' });
+    setTimeout(() => {
+      appendMessage({ type: 'system', text: '💡 真机版将接入实时直播间：弹幕、送礼、连麦。' });
+    }, 1500);
   }, 2600);
 };
 
