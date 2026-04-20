@@ -25,10 +25,10 @@
     --radius-btn: 6px;
     --font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
 
-    /* Shen Zhiyu accent (仅用于 badge 渐变，主体沿用 QQ AIO 蓝) */
-    --char-color: #7C5CFC;
-    --char-color-light: #A78BFA;
-    --char-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    /* QQ AIO 蓝主色 */
+    --char-color: #0099FF;
+    --char-color-light: #4DB8FF;
+    --char-gradient: linear-gradient(135deg, #0099FF 0%, #4DB8FF 100%);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -92,7 +92,7 @@
     width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     font-size: 18px;
-    background: rgba(124,92,252,0.12);
+    background: rgba(0,153,255,0.12);
   }
   .aio-title-info { flex: 1; min-width: 0; }
   .aio-title-name {
@@ -319,7 +319,7 @@
   .scene-chip {
     display: inline-flex; align-items: center; gap: 5px;
     padding: 7px 13px 7px 10px;
-    border: 1px solid rgba(124,92,252,0.18);
+    border: 1px solid rgba(0,153,255,0.18);
     border-radius: 16px;
     background: #fff;
     font-family: var(--font-family);
@@ -332,7 +332,7 @@
   }
   .scene-chip:active {
     transform: scale(.94);
-    background: rgba(124,92,252,0.06);
+    background: rgba(0,153,255,0.06);
   }
   .scene-chip-emoji { font-size: 16px; line-height: 1; }
   .scene-chip.live {
@@ -366,7 +366,7 @@
     padding: 1px 5px;
     font-size: 9px; font-weight: 700;
     color: #fff;
-    background: linear-gradient(135deg, #FF6B9D, #7C5CFC);
+    background: linear-gradient(135deg, #FF6B9D, #0099FF);
     border-radius: 6px;
     margin-left: 2px;
     letter-spacing: 0.3px;
@@ -425,11 +425,11 @@
     content: ''; position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at 30% 40%, rgba(124,92,252,0.4) 0%, transparent 50%),
+      radial-gradient(circle at 30% 40%, rgba(0,153,255,0.4) 0%, transparent 50%),
       radial-gradient(circle at 70% 60%, rgba(255,107,157,0.3) 0%, transparent 50%);
   }
   .scene-modal-cover.call-cover {
-    background: linear-gradient(135deg, #7C5CFC 0%, #FF6B9D 100%);
+    background: linear-gradient(135deg, #0099FF 0%, #FF6B9D 100%);
     color: #fff;
   }
   .scene-modal-live-badge {
@@ -515,9 +515,9 @@
     color: var(--text-primary);
   }
   .scene-modal-btn.primary {
-    background: linear-gradient(135deg, #7C5CFC, #FF6B9D);
+    background: linear-gradient(135deg, #0099FF, #FF6B9D);
     color: #fff;
-    box-shadow: 0 4px 14px rgba(124,92,252,0.3);
+    box-shadow: 0 4px 14px rgba(0,153,255,0.3);
   }
   .scene-modal-btn.primary.live-style {
     background: linear-gradient(135deg, #FF4D6D, #FF6B9D);
@@ -634,7 +634,7 @@
   }
   @keyframes giftPulse {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.12); filter: drop-shadow(0 0 6px rgba(124,92,252,0.5)); }
+    50% { transform: scale(1.12); filter: drop-shadow(0 0 6px rgba(0,153,255,0.5)); }
   }
 
   .gift-panel-overlay {
@@ -696,7 +696,7 @@
   }
   .gift-item:active {
     transform: scale(.94);
-    background: rgba(124,92,252,0.06);
+    background: rgba(0,153,255,0.06);
     border-color: var(--char-color);
   }
   .gift-item-price {
@@ -705,7 +705,7 @@
     font-size: 10px;
     font-weight: 700;
     color: var(--char-color);
-    background: rgba(124,92,252,0.08);
+    background: rgba(0,153,255,0.08);
     padding: 2px 6px;
     border-radius: 8px;
     letter-spacing: 0.3px;
@@ -729,7 +729,7 @@
   /* 自定义礼物入口：虚线框，视觉上区分于商品礼物 */
   .gift-item-custom {
     background: linear-gradient(135deg, #FFF5F7 0%, #F3ECFF 100%);
-    border: 1.5px dashed rgba(124,92,252,0.4);
+    border: 1.5px dashed rgba(0,153,255,0.4);
   }
   .gift-item-custom .gift-item-name {
     color: var(--char-color);
@@ -804,7 +804,7 @@
     outline: none;
     border-color: var(--char-color);
     background: #fff;
-    box-shadow: 0 0 0 3px rgba(124,92,252,0.1);
+    box-shadow: 0 0 0 3px rgba(0,153,255,0.1);
   }
   .custom-gift-emoji-picker {
     display: grid;
@@ -822,7 +822,7 @@
   }
   .emoji-pick:hover { background: #F0F0F2; }
   .emoji-pick.active {
-    background: rgba(124,92,252,0.1);
+    background: rgba(0,153,255,0.1);
     border-color: var(--char-color);
     transform: scale(1.05);
   }
@@ -848,7 +848,7 @@
   .custom-gift-price-row:focus-within {
     border-color: var(--char-color);
     background: #fff;
-    box-shadow: 0 0 0 3px rgba(124,92,252,0.1);
+    box-shadow: 0 0 0 3px rgba(0,153,255,0.1);
   }
   .custom-gift-actions {
     display: flex; gap: 10px;
@@ -886,11 +886,11 @@
     padding: 14px 16px;
     border-radius: 16px;
     background: linear-gradient(135deg, #FFF5F7 0%, #F3ECFF 100%);
-    border: 1px solid rgba(124,92,252,0.18);
+    border: 1px solid rgba(0,153,255,0.18);
     text-align: center;
     min-width: 140px;
     animation: giftFlyIn .7s cubic-bezier(.34,1.56,.64,1);
-    box-shadow: 0 4px 14px rgba(124,92,252,0.15);
+    box-shadow: 0 4px 14px rgba(0,153,255,0.15);
     position: relative;
   }
   .msg-gift-price {
@@ -903,7 +903,7 @@
     padding: 3px 8px;
     border-radius: 10px;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 6px rgba(124,92,252,0.3);
+    box-shadow: 0 2px 6px rgba(0,153,255,0.3);
   }
   .msg-gift-price-custom {
     background: linear-gradient(135deg, #FFB457 0%, #FF8D54 100%);
@@ -916,7 +916,7 @@
   }
   .msg-gift-emoji {
     font-size: 40px; line-height: 1.1;
-    filter: drop-shadow(0 2px 6px rgba(124,92,252,0.25));
+    filter: drop-shadow(0 2px 6px rgba(0,153,255,0.25));
   }
   .msg-gift-label {
     font-size: 10px; color: var(--char-color);
@@ -1134,14 +1134,14 @@
     border-radius: 14px;
     padding: 14px 16px;
     margin-bottom: 10px;
-    box-shadow: 0 1px 3px rgba(124,92,252,0.06);
+    box-shadow: 0 1px 3px rgba(0,153,255,0.06);
     position: relative;
     transition: all .25s;
   }
   .lv-card.current {
     background: linear-gradient(135deg, #EEE8FF 0%, #F7F2FF 100%);
     border: 1.5px solid var(--char-color);
-    box-shadow: 0 4px 16px rgba(124,92,252,0.2);
+    box-shadow: 0 4px 16px rgba(0,153,255,0.2);
   }
   .lv-card.locked { opacity: 0.55; }
 
@@ -1155,7 +1155,7 @@
     color: #fff; font-weight: 600; font-size: 13px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(124,92,252,0.3);
+    box-shadow: 0 2px 8px rgba(0,153,255,0.3);
   }
   .lv-card.locked .lv-badge {
     background: #ddd; box-shadow: none;
@@ -1168,7 +1168,7 @@
   .lv-range {
     font-size: 11px; color: var(--text-secondary);
     padding: 2px 8px;
-    background: rgba(124,92,252,0.08);
+    background: rgba(0,153,255,0.08);
     border-radius: 8px;
   }
   .lv-card.current .lv-range {
@@ -1187,7 +1187,7 @@
     color: #6b5db8;
     font-style: italic;
     padding: 8px 10px;
-    background: rgba(124,92,252,0.05);
+    background: rgba(0,153,255,0.05);
     border-radius: 8px;
     margin-bottom: 8px;
   }
@@ -1782,8 +1782,8 @@
 <script>
 // ==================== SHEN ZHIYU DATA ====================
 const SHEN = {
-  name: '沈知予', emoji: '🌙', color: '#7C5CFC', colorLight: '#A78BFA',
-  gradient: 'linear-gradient(135deg, #7C5CFC, #A78BFA)',
+  name: '沈知予', emoji: '🌙', color: '#0099FF', colorLight: '#4DB8FF',
+  gradient: 'linear-gradient(135deg, #0099FF, #4DB8FF)',
   stages: [
     { lv: 1, name: '弦音 · 审视', range: '0~99', innerVoice: '"又一个平庸的人"' },
     { lv: 2, name: '留白 · 松弦', range: '100~299', innerVoice: '"他好像……不一样"' },
@@ -2203,7 +2203,7 @@ function appendGiftCard(gift, side) {
     avatar.style.background = 'rgba(0, 153, 255, .1)';
   } else {
     avatar.textContent = '🌙';
-    avatar.style.background = 'rgba(124, 92, 252, .12)';
+    avatar.style.background = 'rgba(0, 153, 255, .12)';
   }
 
   const card = document.createElement('div');
@@ -2584,7 +2584,7 @@ function showTyping() {
   const row = document.createElement('div');
   row.className = 'msg-row';
   row.innerHTML = `
-    <div class="msg-avatar" style="background: rgba(124,92,252,0.12)">🌙</div>
+    <div class="msg-avatar" style="background: rgba(0,153,255,0.12)">🌙</div>
     <div class="typing-indicator">
       <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
     </div>
@@ -2678,7 +2678,7 @@ function appendMessage(msg) {
     avatar.style.background = 'rgba(0, 153, 255, .1)';
   } else {
     avatar.textContent = '🌙';
-    avatar.style.background = 'rgba(124, 92, 252, .12)';
+    avatar.style.background = 'rgba(0, 153, 255, .12)';
   }
 
   const bubble = document.createElement('div');
