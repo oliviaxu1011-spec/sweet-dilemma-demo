@@ -94,6 +94,17 @@
     font-size: 18px;
     background: rgba(0,153,255,0.12);
   }
+
+  /* 沈知予专属头像：用真实图片盖过 emoji（emoji 作为 fallback 保留）
+     适用于：.aio-avatar / .msg-avatar / .profile-avatar / .lv2-hero-avatar 所有场景 */
+  .avatar-shen {
+    background-image: url('assets/avatar-shen.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    font-size: 0 !important;           /* 隐藏 emoji 文本（图片加载失败时仍可降级显示） */
+    color: transparent !important;
+  }
   .aio-title-info { flex: 1; min-width: 0; }
   .aio-title-name {
     font-size: 17px; font-weight: 500;
@@ -1481,7 +1492,7 @@
       </svg>
     </button>
     <div class="aio-title-area">
-      <div class="aio-avatar">🌙</div>
+      <div class="aio-avatar avatar-shen">🌙</div>
       <div class="aio-title-info">
         <div class="aio-title-name">
           <span>沈知予</span>
@@ -2568,7 +2579,7 @@ function showTyping() {
   const row = document.createElement('div');
   row.className = 'msg-row';
   row.innerHTML = `
-    <div class="msg-avatar" style="background: rgba(0,153,255,0.12)">🌙</div>
+    <div class="msg-avatar avatar-shen" style="background: rgba(0,153,255,0.12)">🌙</div>
     <div class="typing-indicator">
       <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
     </div>
@@ -2661,6 +2672,7 @@ function appendMessage(msg) {
     avatar.textContent = '🎸';
     avatar.style.background = 'rgba(0, 153, 255, .1)';
   } else {
+    avatar.classList.add('avatar-shen');
     avatar.textContent = '🌙';
     avatar.style.background = 'rgba(0, 153, 255, .12)';
   }
