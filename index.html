@@ -2074,19 +2074,19 @@ const SCENES = [
 // Lv.4 能打动沈知予的礼物清单（结合她是音乐制作人 + 喜欢独处深夜创作的设定）
 // 价格按真实电商市价区间设定（从日常心意 ¥38 到越界贵重 ¥2899）
 const GIFTS = [
-  { emoji: '🌹', name: '一束白玫瑰',  meaning: '不说话的那种喜欢', price: 158  },
-  { emoji: '🎧', name: '监听耳机',    meaning: '下次录音用',       price: 2899 },
-  { emoji: '☕', name: '手冲咖啡',    meaning: '深夜的一点陪伴',   price: 38   },
-  { emoji: '📖', name: '一封手写信',  meaning: '说了说不出的话',   price: 0    },  // 0 = 不显示价格（心意/非卖品）
-  { emoji: '🍷', name: '桂花酒',      meaning: '冬天的一点暖',     price: 168  },
-  { emoji: '🎹', name: '黑胶唱片',    meaning: '你会喜欢的那首',   price: 288  },
-  { emoji: '🧸', name: '小月亮抱枕',  meaning: '深夜给你抱着',     price: 128  },
-  { emoji: '🕯', name: '雪松蜡烛',    meaning: '工作室晚上点',     price: 198  },
-  { emoji: '💍', name: '一枚银戒',    meaning: '不用戴在手上也行', price: 1680 },
+  { emoji: '🌹', name: '一束白玫瑰',  meaning: '不必开口的告白',     price: 158  },
+  { emoji: '🎧', name: '录音室耳机',  meaning: '陪他熬下一个通宵',   price: 2899 },
+  { emoji: '☕', name: '手冲咖啡',    meaning: '凌晨三点的温度',     price: 38   },
+  { emoji: '📖', name: '一封手写信',  meaning: '说不出口的那句话',   price: 0    },  // 0 = 不显示价格（心意/非卖品）
+  { emoji: '🍷', name: '桂花酒',      meaning: '留一杯等他回家',     price: 168  },
+  { emoji: '🎹', name: '黑胶唱片',    meaning: '只为他写的那首',     price: 288  },
+  { emoji: '🧸', name: '月亮抱枕',    meaning: '代你抱他入睡',       price: 128  },
+  { emoji: '🕯', name: '雪松蜡烛',    meaning: '点亮他的工作室',     price: 198  },
+  { emoji: '💍', name: '一枚银戒',    meaning: '戴不戴都算承诺',     price: 1680 },
 ];
 
 // 自定义礼物入口（永远放在最后一个）
-const CUSTOM_GIFT_SLOT = { emoji: '✨', name: '自定义礼物', meaning: '你想送给她的一切', custom: true };
+const CUSTOM_GIFT_SLOT = { emoji: '✨', name: '自定义礼物', meaning: '送她猜不到的心意', custom: true };
 
 // ==================== GIFT UI ====================
 function bindGift() {
@@ -2125,7 +2125,7 @@ function bindGift() {
   customItem.innerHTML = `
     <div class="gift-item-emoji">✨</div>
     <div class="gift-item-name">自定义礼物</div>
-    <div class="gift-item-meaning">送点她意想不到的</div>
+    <div class="gift-item-meaning">送她猜不到的心意</div>
   `;
   customItem.onclick = () => {
     openCustomGiftDialog();
