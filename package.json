@@ -1,0 +1,13 @@
+{
+  "name": "sweet-dilemma-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "甜蜜困局 · 沈知予亲密度对话 demo（DeepSeek + Vercel）",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
