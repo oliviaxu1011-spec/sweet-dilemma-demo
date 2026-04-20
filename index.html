@@ -2734,7 +2734,15 @@ function showTyping() {
 
 // 把 LLM 回复按 \n\n 拆成多条气泡，逐条显示（模拟真实聊天节奏）
 async function renderAssistantReply(raw) {
-  const segments = raw
+  // 兜底：无论 prompt 如何，都把 *...* 星号动作旁白彻底去掉
+  // 1) 移除 *xxx* 形式（包括整段或内嵌）
+  // 2) 移除 （xxx）全角括号旁白（保留带标点的正常句子）
+  const cleaned = raw
+    .replace(/\*[^*\n]+\*/g, '')        // *动作*
+    .replace(/\s{2,}/g, ' ')              // 清理多余空格
+    .replace(/^\s+|\s+$/gm, '');          // 去首尾空白
+
+  const segments = cleaned
     .split(/\n{2,}/)
     .map(s => s.trim())
     .filter(Boolean);
@@ -2747,12 +2755,8 @@ async function renderAssistantReply(raw) {
       t.remove();
     }
     const seg = segments[i];
-    // 如果整段是 *...* 形式，渲染为动作描写
-    if (/^\*[^*]+\*$/.test(seg)) {
-      appendMessage({ type: 'action', text: seg.replace(/^\*|\*$/g, '') });
-    } else {
-      appendMessage({ type: 'other', text: seg });
-    }
+    // 纯 action 段已经被上面的正则吞掉了，这里只按普通气泡渲染
+    appendMessage({ type: 'other', text: seg });
     scrollToBottom();
   }
 }
