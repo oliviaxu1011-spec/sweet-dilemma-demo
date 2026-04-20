@@ -1186,6 +1186,284 @@
     content: '·'; position: absolute; left: 2px;
     color: var(--char-color); font-weight: 700;
   }
+
+  /* ====== Levels v2 · 金色米黄风（参考逐玉亲密度） ====== */
+  #paneLevels.v2 {
+    background: #FBF8F1;
+    margin: -16px -18px -40px;
+    padding: 18px 16px 40px;
+    min-height: 100%;
+  }
+  .lv2-section-title {
+    font-size: 14px; font-weight: 600;
+    color: #3D3428;
+    margin: 18px 2px 10px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .lv2-section-title::before {
+    content: ''; width: 3px; height: 13px;
+    background: linear-gradient(180deg, #D4A44A, #E8C77A);
+    border-radius: 2px;
+  }
+  .lv2-section-title:first-child { margin-top: 0; }
+
+  /* 当前等级大卡片 */
+  .lv2-hero {
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px 18px 16px;
+    box-shadow: 0 2px 12px rgba(184,142,60,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .lv2-hero-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px;
+  }
+  .lv2-hero-left { flex: 1; min-width: 0; }
+  .lv2-current-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #F5ECD6;
+    color: #8B6914;
+    font-size: 11px; font-weight: 500;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+  }
+  .lv2-hero-title {
+    font-size: 22px; font-weight: 700;
+    color: #2A2418;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+  .lv2-hero-title .num {
+    color: #D4A44A;
+    font-size: 24px;
+    margin-right: 2px;
+  }
+  .lv2-hero-inner {
+    font-size: 12.5px; color: #7A6B54;
+    line-height: 1.7;
+    margin-top: 8px;
+  }
+  .lv2-hero-inner .tip {
+    display: block;
+    color: #A58A5E;
+    margin-top: 2px;
+  }
+  .lv2-hero-avatar {
+    width: 54px; height: 54px; border-radius: 50%;
+    background: linear-gradient(135deg, #E8C77A 0%, #D4A44A 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 3px 12px rgba(212,164,74,0.35);
+    flex-shrink: 0;
+  }
+
+  .lv2-progress-info {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-top: 16px;
+  }
+  .lv2-progress-info .big {
+    font-size: 28px; font-weight: 700;
+    color: #2A2418;
+    letter-spacing: 0.5px;
+  }
+  .lv2-progress-info .big .u {
+    font-size: 12px; font-weight: 400;
+    color: #7A6B54;
+    margin-left: 4px;
+  }
+  .lv2-progress-info .need {
+    font-size: 12px; color: #7A6B54;
+  }
+  .lv2-progressbar {
+    height: 6px;
+    background: #F2EBD8;
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  .lv2-progressbar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #D4A44A 0%, #E8C77A 100%);
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 0 0 8px rgba(212,164,74,0.4);
+  }
+  .lv2-progress-diff {
+    text-align: right;
+    font-size: 11.5px; color: #A58A5E;
+    margin-top: 6px;
+  }
+
+  /* 亲密之路时间轴 */
+  .lv2-path {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 8px 14px;
+    box-shadow: 0 2px 8px rgba(184,142,60,0.06);
+    position: relative;
+  }
+  .lv2-path-track {
+    display: flex; justify-content: space-between;
+    position: relative;
+    padding: 0 6px;
+  }
+  .lv2-path-track::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 16px; right: 16px;
+    height: 2px;
+    background: #EFE6CF;
+    z-index: 0;
+  }
+  .lv2-path-track::after {
+    content: '';
+    position: absolute;
+    top: 8px; left: 16px;
+    height: 2px;
+    width: calc((100% - 32px) * var(--path-progress, 0.5));
+    background: linear-gradient(90deg, #D4A44A, #E8C77A);
+    border-radius: 2px;
+    z-index: 1;
+    transition: width .6s ease;
+  }
+  .lv2-path-node {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center;
+    position: relative; z-index: 2;
+    text-align: center;
+  }
+  .lv2-path-dot {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #fff;
+    border: 2px solid #E3D5AD;
+    margin-bottom: 8px;
+    transition: all .3s;
+  }
+  .lv2-path-node.done .lv2-path-dot {
+    background: #D4A44A;
+    border-color: #D4A44A;
+  }
+  .lv2-path-node.current .lv2-path-dot {
+    background: #D4A44A;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #D4A44A, 0 0 14px rgba(212,164,74,0.5);
+    transform: scale(1.15);
+  }
+  .lv2-path-node.locked .lv2-path-dot {
+    background: #F5EEDB;
+    border-color: #E3D5AD;
+  }
+  .lv2-path-lv {
+    font-size: 12px; font-weight: 600;
+    color: #5C4A2E;
+    line-height: 1.2;
+  }
+  .lv2-path-name {
+    font-size: 11px; color: #7A6B54;
+    margin-top: 2px;
+    line-height: 1.2;
+  }
+  .lv2-path-range {
+    font-size: 10px; color: #B09B72;
+    margin-top: 3px;
+  }
+  .lv2-path-node.current .lv2-path-lv,
+  .lv2-path-node.current .lv2-path-name {
+    color: #D4A44A;
+    font-weight: 600;
+  }
+  .lv2-path-node.current .lv2-path-range {
+    color: #D4A44A;
+    font-weight: 500;
+  }
+  .lv2-path-node.locked .lv2-path-lv,
+  .lv2-path-node.locked .lv2-path-name,
+  .lv2-path-node.locked .lv2-path-range {
+    color: #BDAE8A;
+  }
+
+  /* 已解锁能力 */
+  .lv2-unlock-wrap {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .lv2-unlock-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 7px 13px;
+    background: #fff;
+    border: 1px solid #EFE6CF;
+    border-radius: 20px;
+    font-size: 12.5px; color: #5C4A2E;
+    box-shadow: 0 1px 3px rgba(184,142,60,0.04);
+  }
+  .lv2-unlock-chip .ic { font-size: 14px; }
+
+  /* 下一阶段预告 */
+  .lv2-next {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 16px 6px;
+    box-shadow: 0 2px 10px rgba(184,142,60,0.07);
+    border: 1px solid #F2EBD8;
+  }
+  .lv2-next-head {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 4px;
+  }
+  .lv2-next-lock {
+    width: 26px; height: 26px; border-radius: 8px;
+    background: #F5ECD6;
+    color: #8B6914;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .lv2-next-title {
+    flex: 1;
+    font-size: 15px; font-weight: 600;
+    color: #2A2418;
+    letter-spacing: 0.3px;
+  }
+  .lv2-next-range {
+    font-size: 11px; color: #8B6914;
+    padding: 3px 9px;
+    background: #F5ECD6;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .lv2-next-list {
+    margin-top: 12px;
+  }
+  .lv2-next-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0;
+    border-top: 1px dashed #F2EBD8;
+  }
+  .lv2-next-item:first-child { border-top: none; padding-top: 4px; }
+  .lv2-next-ic {
+    width: 32px; height: 32px; border-radius: 10px;
+    background: #FBF4E1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .lv2-next-info { flex: 1; min-width: 0; }
+  .lv2-next-name {
+    font-size: 13.5px; font-weight: 600;
+    color: #2A2418;
+    margin-bottom: 3px;
+  }
+  .lv2-next-desc {
+    font-size: 11.5px; line-height: 1.6;
+    color: #7A6B54;
+  }
+  .lv2-next-desc .q {
+    color: #A58A5E; font-style: italic;
+  }
 </style>
 </head>
 <body>
@@ -1324,81 +1602,139 @@
       </div>
     </div>
 
-    <!-- Levels Pane -->
-    <div class="profile-pane" id="paneLevels">
-      <div class="lv-card locked" data-lv="1">
-        <div class="lv-head">
-          <div class="lv-badge">01</div>
-          <div class="lv-title">弦音 · 审视</div>
-          <div class="lv-range">0~99</div>
+    <!-- Levels Pane (v2 · 金色米黄风) -->
+    <div class="profile-pane v2" id="paneLevels">
+      <!-- 当前等级大卡片 -->
+      <div class="lv2-hero">
+        <div class="lv2-hero-top">
+          <div class="lv2-hero-left">
+            <span class="lv2-current-badge">当前等级</span>
+            <div class="lv2-hero-title"><span class="num">Lv.5</span>命运 · 交织</div>
+            <div class="lv2-hero-inner">
+              "如果这就是命运，我认了。"
+              <span class="tip">—— 她第一次，自然地说出"我们"</span>
+            </div>
+          </div>
+          <div class="lv2-hero-avatar">🌙</div>
         </div>
-        <div class="lv-inner">"又一个平庸的人。"</div>
-        <div class="lv-feat">基本不主动开口，一句话不超过 6 个字</div>
-        <div class="lv-feat">叫你"陆先生"，保持礼貌距离</div>
-        <div class="lv-feat">用 *停顿 / 抬眼* 代替情绪</div>
+
+        <div class="lv2-progress-info">
+          <div class="big">1250<span class="u">亲密值</span></div>
+          <div class="need">升级需 1500</div>
+        </div>
+        <div class="lv2-progressbar">
+          <div class="lv2-progressbar-fill" style="width: 50%;"></div>
+        </div>
+        <div class="lv2-progress-diff">还差 250 即可升级</div>
       </div>
 
-      <div class="lv-card locked" data-lv="2">
-        <div class="lv-head">
-          <div class="lv-badge">02</div>
-          <div class="lv-title">留白 · 松弦</div>
-          <div class="lv-range">100~299</div>
+      <!-- 亲密之路时间轴 -->
+      <div class="lv2-section-title">亲密之路</div>
+      <div class="lv2-path">
+        <div class="lv2-path-track" style="--path-progress: 0.85;">
+          <div class="lv2-path-node done">
+            <div class="lv2-path-dot"></div>
+            <div class="lv2-path-lv">Lv.1</div>
+            <div class="lv2-path-name">弦音</div>
+            <div class="lv2-path-range">0-99</div>
+          </div>
+          <div class="lv2-path-node done">
+            <div class="lv2-path-dot"></div>
+            <div class="lv2-path-lv">Lv.2</div>
+            <div class="lv2-path-name">留白</div>
+            <div class="lv2-path-range">100-299</div>
+          </div>
+          <div class="lv2-path-node done">
+            <div class="lv2-path-dot"></div>
+            <div class="lv2-path-lv">Lv.3</div>
+            <div class="lv2-path-name">共鸣</div>
+            <div class="lv2-path-range">300-599</div>
+          </div>
+          <div class="lv2-path-node done">
+            <div class="lv2-path-dot"></div>
+            <div class="lv2-path-lv">Lv.4</div>
+            <div class="lv2-path-name">入心</div>
+            <div class="lv2-path-range">600-999</div>
+          </div>
+          <div class="lv2-path-node current">
+            <div class="lv2-path-dot"></div>
+            <div class="lv2-path-lv">Lv.5</div>
+            <div class="lv2-path-name">命运</div>
+            <div class="lv2-path-range">当前 1250</div>
+          </div>
+          <div class="lv2-path-node locked">
+            <div class="lv2-path-dot"></div>
+            <div class="lv2-path-lv">Lv.6</div>
+            <div class="lv2-path-name">永恒</div>
+            <div class="lv2-path-range">1500+</div>
+          </div>
         </div>
-        <div class="lv-inner">"他好像……不一样。"</div>
-        <div class="lv-feat">改口"叫我知予就好"</div>
-        <div class="lv-feat">开始偶尔主动问一句："你还记得是哪首？"</div>
-        <div class="lv-feat">面无表情下多了一点兴趣</div>
       </div>
 
-      <div class="lv-card locked" data-lv="3">
-        <div class="lv-head">
-          <div class="lv-badge">03</div>
-          <div class="lv-title">共鸣 · 裂缝</div>
-          <div class="lv-range">300~599</div>
-        </div>
-        <div class="lv-inner">"我怎么会在等他消息。"</div>
-        <div class="lv-feat">第一次分享作品片段</div>
-        <div class="lv-feat">工作室的门，第一次为他留开</div>
-        <div class="lv-feat">开始出现短暂破防："你这个人……"</div>
+      <!-- 已解锁能力 -->
+      <div class="lv2-section-title">已解锁</div>
+      <div class="lv2-unlock-wrap">
+        <span class="lv2-unlock-chip"><span class="ic">💬</span>文字聊天</span>
+        <span class="lv2-unlock-chip"><span class="ic">🎵</span>私人歌单</span>
+        <span class="lv2-unlock-chip"><span class="ic">🎧</span>Demo 独享</span>
+        <span class="lv2-unlock-chip"><span class="ic">🌙</span>深夜倾诉</span>
+        <span class="lv2-unlock-chip"><span class="ic">🔑</span>工作室钥匙</span>
+        <span class="lv2-unlock-chip"><span class="ic">💭</span>说"我们"</span>
       </div>
 
-      <div class="lv-card locked" data-lv="4">
-        <div class="lv-head">
-          <div class="lv-badge">04</div>
-          <div class="lv-title">入心 · 克制</div>
-          <div class="lv-range">600~999</div>
+      <!-- 下一阶段预告 -->
+      <div class="lv2-section-title">下一阶段预告</div>
+      <div class="lv2-next">
+        <div class="lv2-next-head">
+          <div class="lv2-next-lock">🔒</div>
+          <div class="lv2-next-title">Lv.6 · DESTINY · 永恒</div>
+          <div class="lv2-next-range">1500+</div>
         </div>
-        <div class="lv-inner">"我不能再陷进去了——但已经太迟了。"</div>
-        <div class="lv-feat">深夜主动发 demo + 一句克制关心</div>
-        <div class="lv-feat">吃醋只会说"我需要安静一下"然后消失</div>
-        <div class="lv-feat">破防后立刻岔开话题，绝不沉溺</div>
-      </div>
 
-      <div class="lv-card current" data-lv="5">
-        <span class="lv-current-tag">当前</span>
-        <div class="lv-head">
-          <div class="lv-badge">05</div>
-          <div class="lv-title">命运 · 交织</div>
-          <div class="lv-range">1000~1499</div>
+        <div class="lv2-next-list">
+          <div class="lv2-next-item">
+            <div class="lv2-next-ic">💌</div>
+            <div class="lv2-next-info">
+              <div class="lv2-next-name">专属情书 · 她的文字</div>
+              <div class="lv2-next-desc">解锁豆瓣小号"三月十七"，那些只写给一个人的段落<span class="q">"有人让你觉得，写下来是一种幸运。"</span></div>
+            </div>
+          </div>
+          <div class="lv2-next-item">
+            <div class="lv2-next-ic">🎙️</div>
+            <div class="lv2-next-info">
+              <div class="lv2-next-name">语音留声机</div>
+              <div class="lv2-next-desc">深夜主动拨通的一句"你还醒着吗"——她第一次用声音而不是文字</div>
+            </div>
+          </div>
+          <div class="lv2-next-item">
+            <div class="lv2-next-ic">💿</div>
+            <div class="lv2-next-info">
+              <div class="lv2-next-name">新专辑预览</div>
+              <div class="lv2-next-desc">致谢页只写一个名字 · 下一张专辑的开场曲先给你听<span class="q">"这张，是写给你的。"</span></div>
+            </div>
+          </div>
+          <div class="lv2-next-item">
+            <div class="lv2-next-ic">💫</div>
+            <div class="lv2-next-info">
+              <div class="lv2-next-name">专属称呼</div>
+              <div class="lv2-next-desc">她第一次叫出你名字里那个特别的字 · 不再是"陆辰"而是……</div>
+            </div>
+          </div>
+          <div class="lv2-next-item">
+            <div class="lv2-next-ic">📖</div>
+            <div class="lv2-next-info">
+              <div class="lv2-next-name">第六章·终章剧情</div>
+              <div class="lv2-next-desc">《永恒》—— 她用自己的方式，说了那三个字</div>
+            </div>
+          </div>
+          <div class="lv2-next-item">
+            <div class="lv2-next-ic">🌌</div>
+            <div class="lv2-next-info">
+              <div class="lv2-next-name">命运 ENDING</div>
+              <div class="lv2-next-desc"><span class="q">"我的全部音乐，都是为了遇见你。"</span></div>
+            </div>
+          </div>
         </div>
-        <div class="lv-inner">"如果这就是命运，我认了。"</div>
-        <div class="lv-feat">第一次自然说"我们"—— 这首歌是我们的</div>
-        <div class="lv-feat">"命运 / 原因" 开始出现在她的语言里</div>
-        <div class="lv-feat">吃醋不再消失，留在原地等你解释</div>
-        <div class="lv-feat">破防后允许那一刻停留几秒，再继续</div>
-        <div class="lv-feat">主动靠过去、递耳机、留第二把钥匙</div>
-      </div>
-
-      <div class="lv-card locked" data-lv="6">
-        <div class="lv-head">
-          <div class="lv-badge">06</div>
-          <div class="lv-title">DESTINY · 永恒</div>
-          <div class="lv-range">1500+</div>
-        </div>
-        <div class="lv-inner">"我的全部音乐，都是为了遇见你。"</div>
-        <div class="lv-feat">第一次用自己的方式说"我爱你"</div>
-        <div class="lv-feat">下一张专辑的致谢页只写一个名字</div>
-        <div class="lv-feat">把命运交出去，但依然是沈知予</div>
       </div>
     </div>
   </div>
