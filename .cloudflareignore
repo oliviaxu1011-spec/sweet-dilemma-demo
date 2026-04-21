@@ -1,0 +1,15 @@
+# 不要把 node_modules 当静态资源上传
+node_modules
+node_modules/**
+
+# 服务端文件不需要当静态资源
+server.js
+api/
+vercel.json
+
+# 其他
+.env
+.env.local
+*.log
+.git
+.github
