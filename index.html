@@ -294,17 +294,15 @@
   .msg-card-thumb {
     width: 48px; height: 48px; flex-shrink: 0;
     border-radius: 8px;
-    background: linear-gradient(135deg, #00d4ff 0%, #9d4edd 50%, #ff6b9d 100%);
     display: flex; align-items: center; justify-content: center;
     font-size: 26px;
     position: relative;
     overflow: hidden;
   }
-  .msg-card-thumb::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.4), transparent 50%);
+  .msg-card-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
   }
   .msg-card-footer {
     display: flex; align-items: center; gap: 6px;
@@ -2239,7 +2237,7 @@ async function showInitialGreeting() {
     card: {
       title: '沈知予的月亮房间',
       desc: '仅限 9 人 · 深夜写歌 · 未发布 demo 首发 · 她会在这里聊很多',
-      thumb: '🌙',
+      thumb: '<img src="assets/group.png" alt="群聊">',
       source: 'QQ 群聊邀请',
       sourceIcon: 'Q',
       onClick: () => {

@@ -8,3 +8,4 @@ server.log
 
 # 依赖
 node_modules/
+deploy-oa-pages.js
