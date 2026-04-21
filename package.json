@@ -4,8 +4,7 @@
   "private": true,
   "description": "甜蜜困局 · 沈知予亲密度对话 demo（DeepSeek + Vercel）",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "dev:local": "node server.js"
   },
   "engines": {
     "node": ">=18"
