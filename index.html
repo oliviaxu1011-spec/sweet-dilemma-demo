@@ -2135,6 +2135,14 @@ function bindProfile() {
   closeBtn && closeBtn.addEventListener('click', close);
   mask && mask.addEventListener('click', close);
 
+  // 支持通过 URL 参数直接打开档案页：?profile=1 或 #profile
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('profile') === '1' || window.location.hash === '#profile') {
+      setTimeout(open, 300);
+    }
+  } catch (e) {}
+
   // Tab 切换
   tabs.forEach(t => {
     t.addEventListener('click', () => {
