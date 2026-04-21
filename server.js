@@ -164,7 +164,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'POST' && req.url.startsWith('/api/chat')) {
     return handleChat(req, res);
   }
-  // 健康检查端点（给 cron-job.org 保活用，避免 Render Free 休眠）
+  // 健康检查端点（本地调试 / Vercel 部署后可忽略）
   if (req.method === 'GET' && req.url === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ ok: true, ts: Date.now() }));

@@ -28,24 +28,29 @@ node server.js
 open http://localhost:8765
 ```
 
-## Vercel 部署
+## Vercel 部署（唯一线上部署方式）
 
 1. Fork / Clone 本仓库
-2. 登录 [vercel.com](https://vercel.com) → New Project → Import 本仓库
-3. 在 **Environment Variables** 中添加：
+2. 登录 [vercel.com](https://vercel.com) → **New Project** → Import 本仓库
+3. Framework Preset 选 **Other**（无需构建）
+4. 在 **Environment Variables** 中添加：
    - `DEEPSEEK_API_KEY` = 你的 DeepSeek API Key
-4. Deploy，生成的 URL 即可公网访问
+5. 点 **Deploy**，生成的 URL 即可公网访问
+
+> ℹ️ 本项目已配置 `.vercelignore`，Vercel 会忽略 `server.js`（本地开发专用），只把 `index.html` 静态托管 + `api/chat.js` 作为 Serverless Function 部署。
 
 ## 文件结构
 
 ```
 sweet-dilemma-demo/
 ├── index.html          # 前端（QQ AIO 风格，原生 HTML/CSS/JS，无框架）
-├── server.js           # 本地开发用 Node HTTP 服务器
+├── server.js           # 仅本地开发用（Vercel 会忽略）
 ├── api/
 │   ├── chat.js         # Vercel Serverless Function（线上 /api/chat）
 │   └── _prompt.js      # 沈知予 Lv.4 system prompt（本地 + 线上共用）
+├── assets/             # 静态资源（头像、banner 等）
 ├── vercel.json         # Vercel 配置
+├── .vercelignore       # Vercel 忽略规则
 ├── package.json        # Node 项目元信息
 ├── .env                # （不提交）DeepSeek API Key
 └── .gitignore          # 忽略 .env / *.log / node_modules
