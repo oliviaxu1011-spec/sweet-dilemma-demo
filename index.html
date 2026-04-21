@@ -2143,6 +2143,10 @@ const SCENES = [
     action: () => openSceneModal(sceneTplCall())
   },
   {
+    id: 'rank', emoji: '🏆', label: '帮她上榜', badge: null, status: 'live',
+    action: () => openSceneModal(sceneTplRank())
+  },
+  {
     id: 'date', emoji: '💌', label: '约会剧情', badge: null, status: 'soon',
     action: () => openSceneModal(sceneTplSoon({
       emoji: '💌', title: '约会剧情',
@@ -2610,6 +2614,38 @@ window.startCall = function() {
   setTimeout(() => {
     appendMessage({ type: 'system', text: '💡 真机版将接入语音 TTS，实时通话。' });
   }, 1500);
+};
+
+// ---- 帮她上榜 ----
+function sceneTplRank() {
+  return `
+    <div class="scene-modal-header">
+      <div class="scene-modal-coming-emoji">🏆</div>
+      <div class="scene-modal-title">帮她上榜</div>
+      <div class="scene-modal-subtitle">本周「星光值」榜单冲刺中<br>她现在排第 <b style="color:var(--char-color);">7</b> 位，距离榜首还差 <b style="color:var(--char-color);">2,480</b> 星光</div>
+    </div>
+    <div class="scene-modal-features">
+      <div class="scene-modal-feature">🎁 送礼物：每 ¥1 = 10 星光，上榜最快</div>
+      <div class="scene-modal-feature">🔴 进直播间停留：每 10 分钟 +50 星光</div>
+      <div class="scene-modal-feature">💬 发弹幕互动：每条 +5 星光（每日上限 20 条）</div>
+      <div class="scene-modal-feature">👑 冲上 TOP1：解锁她的专属感谢语音 + 限定壁纸</div>
+    </div>
+    <div class="scene-modal-price">
+      <span class="scene-modal-price-unit" style="font-size:14px; color:var(--char-color); font-weight:600;">一键应援礼包 ¥66</span>
+      <span style="font-size:12px; color:var(--text-secondary); margin-left:8px;">（= 660 星光 + 专属弹幕特效）</span>
+    </div>
+    <div class="scene-modal-actions">
+      <button class="scene-modal-btn secondary" onclick="closeSceneModal()">以后再说</button>
+      <button class="scene-modal-btn primary" onclick="handleRankSupport()">立即应援</button>
+    </div>
+  `;
+}
+
+window.handleRankSupport = function() {
+  closeSceneModal();
+  if (typeof appendMessage === 'function') {
+    appendMessage({ type: 'system', text: '🏆 已为沈知予助力 660 星光，当前排名上升至第 5 位～' });
+  }
 };
 
 // ---- Coming Soon 通用模板 ----
