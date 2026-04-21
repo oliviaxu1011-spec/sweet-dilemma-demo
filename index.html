@@ -1173,11 +1173,42 @@
   .profile-body {
     flex: 1; overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 16px 18px 40px;
+    padding: 16px 18px 96px;
   }
   .profile-pane { display: none; }
   .profile-pane.active { display: block; animation: fadein .3s ease; }
   @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* 吸底「发消息」按钮 - QQ游戏中心风格 */
+  .profile-footer {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(180deg, rgba(240,246,255,0) 0%, rgba(240,246,255,0.92) 28%, #F0F6FF 60%);
+    display: flex; justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .profile-msg-btn {
+    pointer-events: auto;
+    width: 100%; max-width: 360px;
+    height: 48px;
+    border: none;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #0099FF 0%, #4DB8FF 100%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 6px 18px rgba(0,153,255,0.32), 0 2px 4px rgba(0,153,255,0.16);
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .profile-msg-btn:hover { filter: brightness(1.05); box-shadow: 0 8px 22px rgba(0,153,255,0.4); }
+  .profile-msg-btn:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(0,153,255,0.28); }
+  .profile-msg-btn svg { width: 18px; height: 18px; }
 
   /* Intro pane */
   .intro-section {
@@ -1864,6 +1895,18 @@
       </div>
     </div>
   </div>
+
+  <div class="profile-footer">
+    <button class="profile-msg-btn" id="profileMsgBtn" type="button" onclick="handleProfileMessage()">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 5h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H8l-4 3V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="9" cy="11.5" r="1.1" fill="currentColor"/>
+        <circle cx="13" cy="11.5" r="1.1" fill="currentColor"/>
+        <circle cx="17" cy="11.5" r="1.1" fill="currentColor"/>
+      </svg>
+      <span>发消息</span>
+    </button>
+  </div>
 </div>
 
 <!-- Unlock toast -->
@@ -2508,6 +2551,18 @@ function closeSceneModal() {
   $('sceneModalOverlay').classList.remove('show');
 }
 window.closeSceneModal = closeSceneModal;
+
+// 档案页「发消息」吸底按钮：关闭档案页回到对话
+window.handleProfileMessage = function() {
+  const mask = document.getElementById('profileMask');
+  const panel = document.getElementById('profilePanel');
+  if (mask) mask.classList.remove('show');
+  if (panel) panel.classList.remove('show');
+  document.body.style.overflow = '';
+  // 聚焦输入框（有就聚焦）
+  const input = document.getElementById('userInput') || document.querySelector('.chat-input, textarea, input[type="text"]');
+  setTimeout(() => { input && input.focus && input.focus(); }, 260);
+};
 
 // ---- 直播场景模板 ----
 function sceneTplLive() {
