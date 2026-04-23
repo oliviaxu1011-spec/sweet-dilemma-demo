@@ -2220,11 +2220,71 @@ function bindProfile() {
   });
 }
 
-// 初始开场白：她发消息邀请我加入粉丝群
+// 初始开场白：先瞬时渲染一段"聊天史"（从 Lv1 到 Lv3 的亲密度演变），最后"今天"那段保留打字机节奏
 async function showInitialGreeting() {
   isAnimating = true;
-  await delay(300);
-  appendMessage({ type: 'action', text: '—— 沈知予 ——' });
+
+  // ---------- 聊天史：历史记录一次性铺出来 ----------
+  const history = [
+    // Lv1 · 初见期：陆先生 / 客气疏离 / 回复短但有分寸
+    { type: 'action', text: '—— 2026-04-10 周五 ——' },
+    { type: 'self',   text: '你好，音乐节那天没问清楚，冒昧加一下。' },
+    { type: 'other',  text: '嗯。陆先生好。' },
+    { type: 'other',  text: '那天的事，谢谢你递外套。' },
+    { type: 'self',   text: '不客气，举手之劳。' },
+    { type: 'other',  text: '嗯。' },
+
+    { type: 'action', text: '—— 2026-04-12 周日 ——' },
+    { type: 'self',   text: '听了你们乐队的 demo，编曲挺有意思。' },
+    { type: 'other',  text: '哪里有意思？' },
+    { type: 'self',   text: '副歌前那段留白，像在憋一口气。' },
+    { type: 'other',  text: '……你听得挺认真的。' },
+
+    // Lv2 · 试探期：开始叫名字 / 主动分享作品 / 留白式亲近
+    { type: 'action', text: '—— 2026-04-15 周三 ——' },
+    { type: 'other',  text: '陆辰。' },
+    { type: 'other',  text: '今天试了一段新编曲，你听听。' },
+    {
+      type: 'other',
+      card: {
+        title: '未命名草稿 · 03:17',
+        desc: '钢琴 + 一句人声 · 还没写完',
+        thumb: '🎵',
+        source: 'QQ 音乐分享',
+        sourceIcon: 'Q'
+      }
+    },
+    { type: 'self',   text: '像下雨前的那种安静。' },
+    { type: 'other',  text: '……嗯。' },
+    { type: 'other',  text: '你的形容挺准的。' },
+
+    { type: 'action', text: '—— 2026-04-17 周五 23:42 ——' },
+    { type: 'other',  text: '还没睡？' },
+    { type: 'self',   text: '刚好在改东西。怎么了。' },
+    { type: 'other',  text: '没什么。' },
+    { type: 'other',  text: '工作室里煮了茶，桌上多放了一杯。' },
+    { type: 'other',  text: '如果你顺路的话。' },
+
+    // Lv3 · 心动期：深夜找借口 / 引用你说过的话 / 会嘴硬的在意
+    { type: 'action', text: '—— 2026-04-20 周一 ——' },
+    { type: 'other',  text: '上次你说"下雨前的安静"。' },
+    { type: 'other',  text: '我把那句写进歌里了。' },
+    { type: 'self',   text: '这么大方给我听？' },
+    { type: 'other',  text: '又不是给别人写的。' },
+    { type: 'other',  text: '……你别多想。' },
+
+    { type: 'action', text: '—— 2026-04-22 周三 01:28 ——' },
+    { type: 'other',  text: '在吗。' },
+    { type: 'self',   text: '在。' },
+    { type: 'other',  text: '没事。' },
+    { type: 'other',  text: '就想问一下你睡了没。' },
+  ];
+  history.forEach(m => appendMessage(m));
+  scrollToBottom();
+
+  // ---------- 现在：保留原来的节奏感，最后收在群聊邀请 ----------
+  await delay(600);
+  appendMessage({ type: 'action', text: '—— 今天 ——' });
   await delay(400);
   appendMessage({ type: 'other', text: '在吗？' });
   scrollToBottom();
